@@ -1,0 +1,40 @@
+models:
+  Product:
+    name: string
+    description: longtext nullable
+    price: integer nullable
+    active: boolean default:1
+    oferta: boolean default:0
+    oferta_descuento: integer nullable
+    units: integer nullable
+    relationships:
+      hasMany: Imageproduct
+      belongsToMany: Tag
+      belongsTo: User
+
+  Category:
+    name: string
+    bgcolor: text nullable
+    color: string nullable
+    image: text nullable
+    icon: text nullable
+    icon_active: boolean default:0
+    timestamps: false
+    relationships:
+      hasMany: Tag
+
+  Tag:
+    name: string
+    bgcolor: text nullable
+    color: string nullable
+    image: text nullable
+    icon: text nullable
+    icon_active: boolean default:0
+    timestamps: false
+    relationships:
+      hasMany: Product
+      belongsTo: Category
+
+controllers:
+  Product:
+    resource
