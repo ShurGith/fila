@@ -9,7 +9,7 @@ models:
     units: integer nullable
     relationships:
       hasMany: Imageproduct
-      belongsToMany: Tag
+      belongsToMany: Tag, Category
       belongsTo: User
 
   Category:
@@ -22,6 +22,7 @@ models:
     timestamps: false
     relationships:
       hasMany: Tag
+
 
   Tag:
     name: string

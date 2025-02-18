@@ -4,18 +4,17 @@
     
     use App\Filament\Resources\ProductResource\Pages;
     use App\Filament\Resources\ProductResource\RelationManagers;
-    use App\Models\Category;
     use App\Models\Product;
-    use App\Models\Tag;
     use Filament\Forms;
-    use Filament\Forms\Components\Group;
     use Filament\Forms\Components\Split;
     use Filament\Forms\Form;
     use Filament\Forms\Get;
     use Filament\Resources\Resource;
     use Filament\Tables;
     use Filament\Tables\Table;
-    use Illuminate\Support\Collection;
+    use FilamentTiptapEditor\Enums\TiptapOutput;
+    use FilamentTiptapEditor\TiptapEditor;
+    use Illuminate\Database\Eloquent\Model;
     
     class ProductResource extends Resource
     {
@@ -40,32 +39,38 @@
                     ->live(),
                   Forms\Components\Toggle::make('active')
                     ->label('Activo'),
-                    ]),
+                ]),
                 Split::make([
                   Forms\Components\Select::make('user_id')
-                        ->relationship('user', 'name')
-                        ->label('Vendedor')
-                        ->columnSpan(2)
-                        ->required(),
+                    ->relationship('user', 'name')
+                    ->label('Vendedor')
+                    ->columnSpan(2)
+                    ->required(),
                   Forms\Components\TextInput::make('price')
-                        ->numeric()
-                        ->columnSpan(2)
-                        ->prefix('$'),
+                    ->numeric()
+                    ->columnSpan(2)
+                    ->prefix('$'),
                   Forms\Components\TextInput::make('descuento')
-                      ->numeric()
-                      ->columnSpan(6)
-                      ->visible(fn (Get $get): bool =>  $get('oferta')),
-                  ]),
-                Forms\Components\RichEditor::make('description')
+                    ->numeric()
+                    ->columnSpan(6)
+                    ->visible(fn(Get $get): bool => $get('oferta')),
+                ]),
+                TiptapEditor::make('description')
+                  ->profile('default')
+                  ->output(TiptapOutput::Html)
                   ->columnSpanFull(),
-                Forms\Components\Select::make('category')
-                  ->options(Category::query()->pluck('name', 'id'))
+                Forms\Components\CheckboxList::make('Categorias')
+                  ->relationship('categories', 'name')
+                  ->getOptionLabelFromRecordUsing(fn(Model $record
+                  ) => "{$record->id} {$record->name} ")
                   ->live(),
-                Forms\Components\Select::make('sub_category')
-                  ->multiple()
-                    ->options(fn (Get $get): Collection => Tag::query()
-                    ->where('category_id', $get('category'))
-                    ->pluck('name', 'id'))
+                Forms\Components\CheckboxList::make('Etiquetas')
+                  ->label('Etiquetas')
+                  ->relationship('tags')
+                  ->visible(fn(Get $get) => empty($get('categories')))
+                  ->getOptionLabelFromRecordUsing(fn(Model $record
+                  ) => "{$record->category_id} {$record->name}")
+                  ->columns(4)
               ]);
         }
         
@@ -92,6 +97,13 @@
                 Tables\Columns\TextColumn::make('user.name')
                   ->numeric()
                   ->sortable(),
+                Tables\Columns\TextColumn::make('categories.name')
+                  ->label('Categorias')
+                  ->badge()
+                  ->color('success'),
+                Tables\Columns\TextColumn::make('tags.name')
+                  ->label('Etiquetas')
+                  ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                   ->dateTime()
                   ->sortable()
@@ -105,8 +117,8 @@
                   //
               ])
               ->actions([
-                Tables\Actions\EditAction::make(),
-                  //->slideOver(),
+                Tables\Actions\EditAction::make()
+                  // ->slideOver(),
               ])
               ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
