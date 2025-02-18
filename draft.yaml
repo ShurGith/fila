@@ -5,7 +5,7 @@ models:
     price: integer nullable
     active: boolean default:1
     oferta: boolean default:0
-    oferta_descuento: integer nullable
+    descuento: integer nullable
     units: integer nullable
     relationships:
       hasMany: Imageproduct

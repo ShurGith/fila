@@ -23,7 +23,7 @@ class Product extends Model
         'price',
         'active',
         'oferta',
-        'oferta_descuento',
+        'descuento',
         'units',
         'user_id',
     ];

@@ -4,12 +4,18 @@
     
     use App\Filament\Resources\ProductResource\Pages;
     use App\Filament\Resources\ProductResource\RelationManagers;
+    use App\Models\Category;
     use App\Models\Product;
+    use App\Models\Tag;
     use Filament\Forms;
+    use Filament\Forms\Components\Group;
+    use Filament\Forms\Components\Split;
     use Filament\Forms\Form;
+    use Filament\Forms\Get;
     use Filament\Resources\Resource;
     use Filament\Tables;
     use Filament\Tables\Table;
+    use Illuminate\Support\Collection;
     
     class ProductResource extends Resource
     {
@@ -26,18 +32,40 @@
             return $form
               ->schema([
                 Forms\Components\TextInput::make('name')
+                  ->label('Producto')
                   ->required()
                   ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Split::make([
+                  Forms\Components\Toggle::make('oferta')
+                    ->live(),
+                  Forms\Components\Toggle::make('active')
+                    ->label('Activo'),
+                    ]),
+                Split::make([
+                  Forms\Components\Select::make('user_id')
+                        ->relationship('user', 'name')
+                        ->label('Vendedor')
+                        ->columnSpan(2)
+                        ->required(),
+                  Forms\Components\TextInput::make('price')
+                        ->numeric()
+                        ->columnSpan(2)
+                        ->prefix('$'),
+                  Forms\Components\TextInput::make('descuento')
+                      ->numeric()
+                      ->columnSpan(6)
+                      ->visible(fn (Get $get): bool =>  $get('oferta')),
+                  ]),
+                Forms\Components\RichEditor::make('description')
                   ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
-                  ->numeric()
-                  ->prefix('$'),
-                Forms\Components\Toggle::make('active')
-                  ->required(),
-                Forms\Components\Select::make('user_id')
-                  ->relationship('user', 'name')
-                  ->required(),
+                Forms\Components\Select::make('category')
+                  ->options(Category::query()->pluck('name', 'id'))
+                  ->live(),
+                Forms\Components\Select::make('sub_category')
+                  ->multiple()
+                    ->options(fn (Get $get): Collection => Tag::query()
+                    ->where('category_id', $get('category'))
+                    ->pluck('name', 'id'))
               ]);
         }
         
@@ -54,10 +82,10 @@
                 Tables\Columns\TextColumn::make('user.name')
                   ->label('Vendedor')
                   ->sortable(),
-                Tables\Columns\ToggleColumn::make('oferta'),
                 Tables\Columns\ToggleColumn::make('active')
                   ->label('En Venta'),
-                Tables\Columns\TextColumn::make('oferta_descuento')
+                Tables\Columns\ToggleColumn::make('oferta'),
+                Tables\Columns\TextColumn::make('descuento')
                   ->label('Descuento')
                   ->numeric()
                   ->sortable(),
@@ -78,6 +106,7 @@
               ])
               ->actions([
                 Tables\Actions\EditAction::make(),
+                  //->slideOver(),
               ])
               ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

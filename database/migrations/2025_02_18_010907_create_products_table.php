@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('price')->nullable();
             $table->boolean('active')->default(1);
             $table->boolean('oferta')->default(0);
-            $table->integer('oferta_descuento')->nullable();
+            $table->integer('descuento')->nullable();
             $table->integer('units')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();

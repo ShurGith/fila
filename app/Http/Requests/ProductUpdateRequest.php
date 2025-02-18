@@ -25,7 +25,7 @@ class ProductUpdateRequest extends FormRequest
             'price' => ['nullable', 'integer'],
             'active' => ['required'],
             'oferta' => ['required'],
-            'oferta_descuento' => ['nullable', 'integer'],
+            'descuento' => ['nullable', 'integer'],
             'units' => ['nullable', 'integer'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
         ];
