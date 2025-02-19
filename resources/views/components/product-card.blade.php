@@ -10,8 +10,7 @@
 @endphp
 <div class="-mx-px gap-2 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
   @foreach($products as $product)
-    <div
-      class="flex flex-col justify-start bg-gray-100 group relative border-b border-r rounded border-gray-200 p-2">
+    <div class="flex flex-col justify-start bg-gray-100 group relative border-b border-r rounded border-gray-200 p-2">
       <div class="flex flex-col items-center gap-4">
         @foreach($product->imageproducts as $imagen)
           @if($imagen->img_position === 1)
@@ -36,7 +35,7 @@
             <svg class="size-2.5 fill-green-300" viewBox="0 0 6 6" aria-hidden="true">
               <circle cx="3" cy="3" r="3"/>
             </svg>
-            {{$product->oferta_descuento}}% Descuento
+            {{$product->descuento}}% Descuento
           </h5>
         @endif
       </div>
@@ -81,7 +80,7 @@
           @php
             $precio_venta  = $product->price;
            if($product->oferta){
-               $descuento = $product->oferta_descuento;
+               $descuento = $product->descuento;
                $precio_final =   $product->price  * ((100-$descuento)/100);
              }else{
                $precio_final = $product->price;
@@ -98,27 +97,40 @@
           </div>
           <h4 class="text-xs mt-2 w-full text-center">Quedan: {{ $product->units }} unidades</h4>
           <div class="mt-4 w-full p-4">
-            @foreach($product->categoriesWithTags as $cat)
-              <div class="flex flex-col text-center gap-1">
-                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded" style="background:{{ $cat->color }}">
-                  @if($cat->icono_activo)
-                    <div class="w-6 h-6" style="color:{{$cat->text_color}}">
-                      {!!$cat->heroicon!!}
+            @php
+              $categs=[];
+            @endphp
+            @foreach($product->tags as $tag)
+              @php
+                $paso = false;
+                    if(!in_array($tag->category->name,$categs)){
+                       $categs[] = $tag->category->name;
+                       $paso = true;
+                    }
+              @endphp
+              @if($paso)
+                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded"
+                     style="background:{{ $tag->category->bgcolor }}; color:{{$tag->category->color}}">
+                  @if($tag->category->icon_active)
+                    <div class="w-6 h-6" style="color:{{$tag->category->color}}">
+                      {!!$tag->category->icon!!}
                     </div>
                   @else
-                    <img src="{{$cat->logo}}" class="w-6 rounded-full">
+                    <img src="{{$tag->category->image}}" class="w-6 rounded-full">
                   @endif
-                  <p class="text-[10px] px-2 py-1 rounded" style="color:{{$cat->text_color}}"> {{ $cat->name }}</p>
+                  {{ $tag->category->name }}
                 </div>
-                <div class="flex gap-1 ml-4 mb-1">
-                  @foreach($cat->tags as $tag)
-                    <div class="w-fit flex items-center text-[8px] min-w-14 px-2 py-1 rounded"
-                         style="background:{{ $tag->color }}; color:{{$tag->text_color}}">
-                      @if($tag->icono_activo)
-                        <div>{!!$tag->heroicon!!}</div>
-                      @endif
-                      {{ $tag->name }}</div>
-                  @endforeach
+              @endif
+              <div class="flex flex-col text-center gap-1">
+                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded" style="background:{{ $tag->bgcolor }}">
+                  @if($tag->icon_active)
+                    <div class="w-6 h-6" style="color:{{$tag->color}}">
+                      {!!$tag->icon!!}
+                    </div>
+                  @else
+                    <img src="{{$tag->image}}" class="w-6 rounded-full">
+                  @endif
+                  <p class="text-[10px] px-2 py-1 rounded" style="color:{{$tag->color}}"> {{ $tag->name }}</p>
                 </div>
               </div>
             @endforeach
@@ -128,4 +140,4 @@
     </div>
   @endforeach
 </div>
-
+</div>

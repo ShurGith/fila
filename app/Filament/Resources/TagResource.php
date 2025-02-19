@@ -25,20 +25,20 @@
         {
             return $form
               ->schema([
-                Forms\Components\TextInput::make('name')
-                  ->required()
-                  ->maxLength(255),
-                Forms\Components\Textarea::make('bgcolor')
-                  ->columnSpanFull(),
-                Forms\Components\TextInput::make('color')
-                  ->maxLength(255),
-                Forms\Components\Textarea::make('image')
-                  ->columnSpanFull(),
-                Forms\Components\Textarea::make('icono')
-                  ->columnSpanFull(),
-                Forms\Components\Select::make('category_id')
-                  ->relationship('category', 'name')
-                  ->required(),
+                Forms\Components\Split::make([
+                  Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                  Forms\Components\ColorPicker::make('bgcolor'),
+                  Forms\Components\ColorPicker::make('color'),
+                  Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->required(),
+                ])->columnSpanFull(),
+                Forms\Components\Split::make([
+                  Forms\Components\Textarea::make('image'),
+                  Forms\Components\Textarea::make('icon'),
+                ])->columnSpanFull(),
               ]);
         }
         

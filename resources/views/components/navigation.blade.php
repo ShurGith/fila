@@ -19,8 +19,8 @@
               @endauth
               <x-partials.nav-link href="{{ route('products.index') }}"
                                    :active="request()->routeIs('products.index')">{{  __('Productos') }}</x-partials.nav-link>
-              <x-partials.nav-link href="{{ route('posts.index') }}"
-                                   :active="request()->routeIs('posts.index')">{{  __('Blog') }}</x-partials.nav-link>
+              {{--           <x-partials.nav-link href="{{ route('posts.index') }}"
+                                              :active="request()->routeIs('posts.index')">{{  __('Blog') }}</x-partials.nav-link>--}}
               <a href="#"
                  class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
               <a href="#"

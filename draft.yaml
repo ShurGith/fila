@@ -12,6 +12,13 @@ models:
       belongsToMany: Tag, Category
       belongsTo: User
 
+  Imageproduct:
+    img_path: string
+    img_pos: integer
+    timestamps: false
+    relationships:
+      belongsTo: Product
+
   Category:
     name: string
     bgcolor: text nullable

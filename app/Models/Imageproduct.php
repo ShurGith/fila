@@ -4,18 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Category extends Model
+class Imageproduct extends Model
 {
     use HasFactory;
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,12 +16,9 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'bgcolor',
-        'color',
-        'image',
-        'icon',
-        'icon_active',
+        'img_path',
+        'img_pos',
+        'product_id',
     ];
 
     /**
@@ -38,11 +28,11 @@ class Category extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'icon_active' => 'boolean',
+        'product_id' => 'integer',
     ];
 
-    public function tags(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsTo(Product::class);
     }
 }

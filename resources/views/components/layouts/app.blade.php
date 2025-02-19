@@ -14,14 +14,7 @@
   <!-- Styles / Scripts -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   
-  <style>
-      [x-cloak] {
-          display: none !important;
-      }
-  </style>
-  
   @filamentStyles
-  @vite('resources/css/app.css')
 </head>
 <body class="antialiased grid min-h-dvh grid-rows[auto 1fr auto]">
 <div class="bg-gray-800 pb-32">
@@ -41,7 +34,6 @@
 </main>
 <x-footer/>
 @filamentScripts
-@vite('resources/js/app.js')
 
 </body>
 </html>

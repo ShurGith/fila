@@ -42,6 +42,7 @@
                   'color' => fake()->colorName(),
                   'bgcolor' => fake()->colorName(),
                   'category_id' => rand(1, 5),
+                  'icon_active' => fake()->boolean(),
                 ]);
             }
             for ($i = 0; $i < 40; $i++) {
