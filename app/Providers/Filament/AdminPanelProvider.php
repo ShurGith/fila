@@ -2,6 +2,7 @@
     
     namespace App\Providers\Filament;
     
+    use CharrafiMed\GlobalSearchModal\GlobalSearchModalPlugin;
     use Filament\Http\Middleware\Authenticate;
     use Filament\Http\Middleware\AuthenticateSession;
     use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,7 +29,7 @@
             FilamentView::registerRenderHook(
               PanelsRenderHook::TOPBAR_START,//USER_MENU_BEFORE,
               fn(
-              ): string => ('<a  style="color:darkblue; border-color:darkblue" class="font-semibold border rounded-lg px-3 py-2 text-sm" href=\' /\'>Home</a>'),
+              ): string => ('<a  class="border font-semibold border rounded-lg px-3 py-2 text-sm" href=\' /\'>Home</a>'),
             );
             return $panel
               ->default()
@@ -63,6 +64,11 @@
                 PanelsRenderHook::HEAD_START,
                 fn(): string => Blade::render("@vite('resources/js/app.js')"),
               )
+              ->plugins([
+                  //    GlobalSearchModalPlugin::make(),
+                  /*   ->closeByEscaping(enabled: false)
+                     ->closeByClickingAway(enabled: false)*/
+              ])
               ->authMiddleware([
                 Authenticate::class,
               ]);

@@ -12,8 +12,8 @@
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
   @php
     if(isset($css)){
-     echo '<link rel="stylesheet" href="../css/show.css">';
-     }
+    echo '<link rel="stylesheet" href="../css/show.css">';
+    }
   @endphp
     <!-- Styles / Scripts -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -25,7 +25,7 @@
   <x-navigation/>
   <header class="py-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h1 class="text-2xl font-bold tracking-tight text-white">{{ $headerText ?? "Liveware"}}</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-white">{{ $headerText ?? "Liveware"}}</h1>
     </div>
   </header>
 </div>
@@ -38,6 +38,7 @@
 </main>
 <x-footer/>
 @filamentScripts
+<script src="../js/js.js"></script>
 
 </body>
 </html>

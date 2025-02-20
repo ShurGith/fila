@@ -1,5 +1,5 @@
 <x-layouts.app :meta-title="'Productos:'.$titulo " :header-text="'Productos: '.$titulo">
-  <div class="">
-    <x-products-list :products="$products"/>
-  </div>
+  
+  <x-products-list :products="$products"/>
+
 </x-layouts.app>
