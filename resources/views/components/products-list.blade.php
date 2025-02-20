@@ -1,13 +1,4 @@
-@php
-  function enteros($valor) {
-    $formatPrecio = number_format($valor / 100, 2, "'", ".");
-    return substr($formatPrecio,0, strpos($formatPrecio,"'" )+1);
-  }
-    function decimales($valor) {
-    $formatPrecio = number_format($valor / 100, 2, "'", ".");
-    return substr($formatPrecio, -2);
-  }
-@endphp
+<x-partials.precios/>
 <div class="-mx-px gap-2 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
   @foreach($products as $product)
     <div class="flex flex-col justify-start bg-gray-100 group relative border-b border-r rounded border-gray-200 p-2">
@@ -25,10 +16,15 @@
       </div>
       <div class="pb-4 pt-2 min-h-20 gap-2 flex flex-col items-center">
         <h3 class="text-xl font-medium text-gray-900">
-          <a href="#">
+          <a href="{{ route('products.show', $product) }}">
             {{ $product->name }}
           </a>
         </h3>
+        @if(request()->routeIs('products.show'))
+          <div>
+            {!! tiptap_converter()->asHTML($product->description) !!}
+          </div>
+        @endif
         @if($product->oferta)
           <h5
             class="w-1/2 inline-flex justify-center items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white bg-green-600 ring-1 ring-inset ring-green-700">
@@ -100,39 +96,35 @@
             @php
               $categs=[];
             @endphp
-            @foreach($product->tags as $tag)
-              @php
-                $paso = false;
-                    if(!in_array($tag->category->name,$categs)){
-                       $categs[] = $tag->category->name;
-                       $paso = true;
-                    }
-              @endphp
-              @if($paso)
-                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded"
-                     style="background:{{ $tag->category->bgcolor }}; color:{{$tag->category->color}}">
-                  @if($tag->category->icon_active)
-                    <div class="w-6 h-6" style="color:{{$tag->category->color}}">
-                      {!!$tag->category->icon!!}
+            @foreach($product->categories as $category)
+              <a href="{{url('/?category='.$category->id)}}">
+                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded text-xs"
+                     style="background:{{ $category->bgcolor }}; color:{{$category->color}}">
+                  @if($category->icon_active)
+                    <div class="mr-1" style="color:{{$category->color}}">
+                      {!! $category->icon !!}
                     </div>
-                  @else
-                    <img src="{{$tag->category->image}}" class="w-6 rounded-full">
+                  @elseif($category->image)
+                    <img src="{{asset($category->image)}}" class="w-6 rounded-full">
                   @endif
-                  {{ $tag->category->name }}
+                  {{ $category->name }}
                 </div>
-              @endif
-              <div class="flex flex-col text-center gap-1">
-                <div class="flex items-center gap-1 w-fit py-1 px-1 rounded" style="background:{{ $tag->bgcolor }}">
-                  @if($tag->icon_active)
-                    <div class="w-6 h-6" style="color:{{$tag->color}}">
-                      {!!$tag->icon!!}
-                    </div>
-                  @else
-                    <img src="{{$tag->image}}" class="w-6 rounded-full">
-                  @endif
-                  <p class="text-[10px] px-2 py-1 rounded" style="color:{{$tag->color}}"> {{ $tag->name }}</p>
-                </div>
-              </div>
+              </a>
+              @foreach($product->tags as $tag)
+                <a href="{{url('/?tag='.$tag->id)}}">
+                  <div class="flex justify-center items-center gap-1 w-fit py-1 px-1 ml-4 mt-[2px] rounded"
+                       style="background:{{ $tag->bgcolor }}">
+                    @if($tag->icon_active)
+                      <div style="color:{{$tag->color}}">
+                        {!!$tag->icon!!}
+                      </div>
+                    @elseif($tag->image)
+                      <img src="{{asset($tag->image)}}" class="w-6 rounded-full">
+                    @endif
+                    <p class="text-[10px] px-2 py-1 rounded" style="color:{{$tag->color}}"> {{ $tag->name }}</p>
+                  </div>
+                </a>
+              @endforeach
             @endforeach
           </div>
         </div>
@@ -140,4 +132,7 @@
     </div>
   @endforeach
 </div>
+</div>
+<div class="mt-2">
+  {{ $products->links() }}
 </div>

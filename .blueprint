@@ -4,12 +4,12 @@ created:
     - database/factories/ImageproductFactory.php
     - database/factories/CategoryFactory.php
     - database/factories/TagFactory.php
-    - database/migrations/2025_02_18_214825_create_products_table.php
-    - database/migrations/2025_02_18_214826_create_imageproducts_table.php
-    - database/migrations/2025_02_18_214827_create_categories_table.php
-    - database/migrations/2025_02_18_214828_create_tags_table.php
-    - database/migrations/2025_02_18_214829_create_product_tag_table.php
-    - database/migrations/2025_02_18_214830_create_category_product_table.php
+    - database/migrations/2025_02_20_131023_create_products_table.php
+    - database/migrations/2025_02_20_131024_create_imageproducts_table.php
+    - database/migrations/2025_02_20_131025_create_categories_table.php
+    - database/migrations/2025_02_20_131026_create_tags_table.php
+    - database/migrations/2025_02_20_131027_create_product_tag_table.php
+    - database/migrations/2025_02_20_131028_create_category_product_table.php
     - app/Models/Product.php
     - app/Models/Imageproduct.php
     - app/Models/Category.php
@@ -25,6 +25,6 @@ skipped:
 models:
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
     Product: { name: string, description: 'longtext nullable', price: 'integer nullable', active: 'boolean default:1', oferta: 'boolean default:0', descuento: 'integer nullable', units: 'integer nullable', relationships: { hasMany: Imageproduct, belongsToMany: 'Tag, Category', belongsTo: User } }
-    Imageproduct: { img_path: string, img_pos: integer, relationships: { belongsTo: Product } }
+    Imageproduct: { img_path: string, img_pos: integer, timestamps: false, relationships: { belongsTo: Product } }
     Category: { name: string, bgcolor: 'text nullable', color: 'string nullable', image: 'text nullable', icon: 'text nullable', icon_active: 'boolean default:0', timestamps: false, relationships: { hasMany: Tag } }
     Tag: { name: string, bgcolor: 'text nullable', color: 'string nullable', image: 'text nullable', icon: 'text nullable', icon_active: 'boolean default:0', timestamps: false, relationships: { hasMany: Product, belongsTo: Category } }

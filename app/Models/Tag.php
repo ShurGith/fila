@@ -5,24 +5,14 @@
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
-    use Illuminate\Database\Eloquent\Relations\HasMany;
+    use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     
     class Tag extends Model
     {
         use HasFactory;
         
-        /**
-         * Indicates if the model should be timestamped.
-         *
-         * @var bool
-         */
         public $timestamps = false;
         
-        /**
-         * The attributes that are mass assignable.
-         *
-         * @var array
-         */
         protected $fillable = [
           'name',
           'bgcolor',
@@ -32,16 +22,16 @@
           'icon_active',
           'category_id',
         ];
-        
         protected $casts = [
           'id' => 'integer',
           'icon_active' => 'boolean',
           'category_id' => 'integer',
         ];
         
-        public function products(): HasMany
+        public function products(): belongsToMany
         {
-            return $this->hasMany(Product::class);
+            return $this->belongsToMany(Product::class, 'product_tag', '`product_id', 'tag_id');
+            
         }
         
         public function category(): BelongsTo

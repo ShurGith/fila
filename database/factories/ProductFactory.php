@@ -22,6 +22,14 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->name(),
+            'description' => fake()->text(),
+            'price' => fake()->numberBetween(-10000, 10000),
+            'active' => fake()->boolean(),
+            'oferta' => fake()->boolean(),
+            'descuento' => fake()->numberBetween(-10000, 10000),
+            'units' => fake()->numberBetween(-10000, 10000),
+            'user_id' => User::factory(),
         ];
     }
 }

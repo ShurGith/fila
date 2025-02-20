@@ -5,10 +5,4 @@
     
     Route::get('/', [HomeControler::class, 'home'])->name('home');
     
-    
     Route::resource('products', App\Http\Controllers\ProductController::class);
-
-
-
-
-Route::resource('products', App\Http\Controllers\ProductController::class);

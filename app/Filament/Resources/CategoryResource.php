@@ -27,14 +27,19 @@
               ->schema([
                 Forms\Components\Split::make([
                   Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
                   Forms\Components\ColorPicker::make('bgcolor'),
                   Forms\Components\ColorPicker::make('color'),
-                  Forms\Components\Toggle::make('icon_active'),
+                  Forms\Components\ToggleButtons::make('icon_active')
+                    ->label('¿Activar Icono?')
+                    ->boolean()
+                    ->grouped(),
                 ])->columnSpanFull(),
                 Forms\Components\Split::make([
-                  Forms\Components\Textarea::make('image'),
+                  Forms\Components\FileUpload::make('image')
+                    ->directory('categ_images')
+                    ->image()
+                    ->imageEditor(),
                   Forms\Components\Textarea::make('icon'),
                 ])->columnSpanFull(),
               ]);
@@ -45,9 +50,13 @@
             return $table
               ->columns([
                 Tables\Columns\TextColumn::make('name')
-                  ->searchable(),
-                Tables\Columns\TextColumn::make('color')
-                  ->searchable(),
+                  ->sortable(),
+                Tables\Columns\ColorColumn::make('color'),
+                Tables\Columns\ColorColumn::make('bgcolor'),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\IconColumn::make('icon_active')
+                  ->trueColor('success')
+                  ->falseColor('error'),
                 Tables\Columns\TextColumn::make('created_at')
                   ->dateTime()
                   ->sortable()
@@ -61,7 +70,9 @@
                   //
               ])
               ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                  ->slideOver(),
               ])
               ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -82,7 +93,7 @@
             return [
               'index' => Pages\ListCategories::route('/'),
               'create' => Pages\CreateCategory::route('/create'),
-              'edit' => Pages\EditCategory::route('/{record}/edit'),
+                //'edit' => Pages\EditCategory::route('/{record}/edit'),
             ];
         }
     }

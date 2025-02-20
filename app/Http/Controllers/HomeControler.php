@@ -10,9 +10,25 @@
     {
         public function home(Request $request): View
         {
-            $products = Product::all();
             
-            return view('home', [
+            if ($request->category) {
+                $laid = $request->category;
+                $products = Product::whereHas('categories', function ($query) use ($laid) {
+                    $query->where('category_id', $laid);
+                })->paginate(12);
+                
+            } elseif ($request->tag) {
+                $laid = $request->tag;
+                $products = Product::whereHas('tags', function ($query) use ($laid) {
+                    $query->where('tag_id', $laid);
+                })->paginate(12);
+                
+            } else {
+                $products = Product::with(['imageproducts'])
+                  ->where('active', true)
+                  ->paginate(12);
+            }
+            return view('product.index', [
               'products' => $products,
             ]);
         }

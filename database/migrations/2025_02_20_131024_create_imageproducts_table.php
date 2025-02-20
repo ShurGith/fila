@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('img_path');
             $table->integer('img_pos');
             $table->foreignId('product_id');
-            $table->timestamps();
         });
     }
 

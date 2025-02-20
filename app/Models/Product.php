@@ -12,6 +12,11 @@
     {
         use HasFactory;
         
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var array
+         */
         protected $fillable = [
           'name',
           'description',
@@ -23,6 +28,11 @@
           'user_id',
         ];
         
+        /**
+         * The attributes that should be cast to native types.
+         *
+         * @var array
+         */
         protected $casts = [
           'id' => 'integer',
           'active' => 'boolean',
@@ -37,12 +47,12 @@
         
         public function tags(): BelongsToMany
         {
-            return $this->belongsToMany(Tag::class);
+            return $this->belongsToMany(Tag::class, 'product_tag', 'product_id', 'tag_id');
         }
         
         public function categories(): BelongsToMany
         {
-            return $this->belongsToMany(Category::class);
+            return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
         }
         
         public function user(): BelongsTo
