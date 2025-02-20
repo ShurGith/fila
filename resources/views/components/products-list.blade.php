@@ -97,7 +97,7 @@
               $categs=[];
             @endphp
             @foreach($product->categories as $category)
-              <a href="{{url('/?category='.$category->id)}}">
+              <a href="{{url('/?category='.$category->id).'&categ_name='.$category->name}}">
                 <div class="flex items-center gap-1 w-fit py-1 px-1 rounded text-xs"
                      style="background:{{ $category->bgcolor }}; color:{{$category->color}}">
                   @if($category->icon_active)
@@ -111,7 +111,7 @@
                 </div>
               </a>
               @foreach($product->tags as $tag)
-                <a href="{{url('/?tag='.$tag->id)}}">
+                <a href="{{url('/?tag='.$tag->id.'&tag_name='.$tag->name)}}">
                   <div class="flex justify-center items-center gap-1 w-fit py-1 px-1 ml-4 mt-[2px] rounded"
                        style="background:{{ $tag->bgcolor }}">
                     @if($tag->icon_active)

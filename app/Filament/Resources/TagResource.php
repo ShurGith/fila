@@ -28,8 +28,8 @@
                 Forms\Components\Split::make([
                   Forms\Components\TextInput::make('name')
                     ->required(),
-                  Forms\Components\ColorPicker::make('bgcolor'),
                   Forms\Components\ColorPicker::make('color'),
+                  Forms\Components\ColorPicker::make('bgcolor'),
                   Forms\Components\ToggleButtons::make('icon_active')
                     ->label('¿Activar Icono?')
                     ->boolean()
@@ -57,8 +57,10 @@
                 Tables\Columns\TextColumn::make('category.name')
                   ->numeric()
                   ->sortable(),
-                Tables\Columns\ColorColumn::make('color'),
-                Tables\Columns\ColorColumn::make('bgcolor'),
+                Tables\Columns\ColorColumn::make('color')
+                  ->copyable(),
+                Tables\Columns\ColorColumn::make('bgcolor')
+                  ->copyable(),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\IconColumn::make('icon_active')
                   ->trueColor('success')
