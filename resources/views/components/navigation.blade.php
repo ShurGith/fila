@@ -10,8 +10,6 @@
           </div>
           <div class="md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              
               <x-partials.nav-link href="{{ route('home') }}"
                                    :active="request()->routeIs('home')">{{  __('Home') }}</x-partials.nav-link>
               @auth
@@ -56,6 +54,7 @@
                     <a href="{{  url('/admin/login') }}"
                        class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Login</a>
                   @endguest
+                
                 </div>
                 
                 <!--
@@ -82,26 +81,41 @@
                       @csrf
                       <button type="submit" style=";"
                               class="fi-dropdown-list-item flex w-full items-center gap-2 whitespace-nowrap rounded-md p-2 text-sm transition-colors duration-75 outline-none disabled:pointer-events-none disabled:opacity-70 hover:bg-gray-50 focus-visible:bg-gray-50 dark:hover:bg-white/5 dark:focus-visible:bg-white/5 fi-dropdown-list-item-color-gray fi-color-gray">
-                    <span
-                      class="flex items-center gap-1 fi-dropdown-list-item-label flex-1 truncate text-start text-gray-700 dark:text-gray-200"
-                      style="">
-               
-               @auth()
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6">
-                         <path stroke-linecap="round" stroke-linejoin="round"
-                               d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/></svg>
-                        Sign out
-                      @endauth
-                      @guest
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round"
-                                                                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"/></svg>
-                        Signin
-                      @endguest
-            </span>
+                              <span
+                                class="flex items-center gap-1 fi-dropdown-list-item-label flex-1 truncate text-start text-gray-700 dark:text-gray-200"
+                                style="">
+                                @auth()
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                       stroke-width="1.5" stroke="currentColor" class="size-6">
+                                   <path stroke-linecap="round" stroke-linejoin="round"
+                                         d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/></svg>
+                                  Sign out
+                                @endauth
+                                @guest
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                       stroke-width="1.5" stroke="currentColor" class="size-6"><path
+                                      stroke-linecap="round" stroke-linejoin="round"
+                                      d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3  3m3-3H2.25"/></svg>
+                                  Signin
+                                @endguest
+                              </span>
                       </button>
                     </form>
+                    
+                    @php
+                      $idioma =  array_key_exists(session('locale'),config('languages')) ? session('locale') : Config('app.locale');
+                    @endphp
+                    @foreach (config('languages') as $key => $value)
+                      @if ($key != $idioma)
+                        <a class="flex gap-2 px-4 py-2 text-sm text-gray-700"
+                           href="{{ route('lang', $key) }}">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                               stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5"/>
+                          </svg>{{ $value }}</a>
+                      @endif
+                    @endforeach
                   </div>
               </div>
           </div>

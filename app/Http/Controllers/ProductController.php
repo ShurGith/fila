@@ -18,7 +18,7 @@
               ->paginate(12);
             return view('product.index', [
               'products' => $products,
-                //  'titulo' => 'Listado de productos',
+              'titulo' => 'Listado de productos',
             ]);
         }
         

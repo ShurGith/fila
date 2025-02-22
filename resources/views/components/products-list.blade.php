@@ -111,19 +111,21 @@
                 </div>
               </a>
               @foreach($product->tags as $tag)
-                <a href="{{url('/?tag='.$tag->id.'&tag_name='.$tag->name)}}">
-                  <div class="flex justify-center items-center gap-1 w-fit py-1 px-1 ml-4 mt-[2px] rounded"
-                       style="background:{{ $tag->bgcolor }}">
-                    @if($tag->icon_active)
-                      <div style="color:{{$tag->color}}">
-                        {!!$tag->icon!!}
-                      </div>
-                    @elseif($tag->image)
-                      <img src="{{asset($tag->image)}}" class="w-6 rounded-full">
-                    @endif
-                    <p class="text-[10px] px-2 py-1 rounded" style="color:{{$tag->color}}"> {{ $tag->name }}</p>
-                  </div>
-                </a>
+                @if($tag->category_id === $category->id)
+                  <a href="{{url('/?tag='.$tag->id.'&tag_name='.$tag->name)}}">
+                    <div class="flex justify-center items-center gap-1 w-fit py-1 px-1 ml-4 mt-[2px] rounded"
+                         style="background:{{ $tag->bgcolor }}">
+                      @if($tag->icon_active)
+                        <div style="color:{{$tag->color}}">
+                          {!!$tag->icon!!}
+                        </div>
+                      @elseif($tag->image)
+                        <img src="{{asset($tag->image)}}" class="w-6 rounded-full">
+                      @endif
+                      <p class="text-[10px] px-2 py-1 rounded" style="color:{{$tag->color}}"> {{ $tag->name }}</p>
+                    </div>
+                  </a>
+                @endif
               @endforeach
             @endforeach
           </div>
