@@ -65,4 +65,14 @@
             
             return redirect()->route('products.index');
         }
+        
+        public function buyit($id)
+        {
+            
+            $product = Product::find($id);
+            return view('product.buyit',
+              [
+                'product' => $product,
+              ]);
+        }
     }
