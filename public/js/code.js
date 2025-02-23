@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		})
 		document.addEventListener('keydown', (evento) => {
 			const keyCode = evento.key;
-			if (!menu.classList.contains('opacity-0') && keyCode === 'Escape')
-				OperaMenu();
+			if (!menu.classList.contains('opacity-0') && keyCode === 'Escape') nrb
+			OperaMenu();
 		})
 	}
 })
