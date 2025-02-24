@@ -177,8 +177,13 @@
                         aria-controls="tabs-2-panel-1" role="tab" type="button">
                   <span class="sr-only">Angled view</span>
                   <span class="absolute inset-0 overflow-hidden rounded-md">
-                  <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-03-product-01.jpg"
-                       alt="" class="size-full object-cover">
+                  @foreach($product->imageproducts as $imagen)
+                      @if($imagen->img_pos === 1)
+                        <img src="{{ asset( $imagen->img_path) }}"
+                             alt="" class="size-full object-cover">
+                      @endif
+                    @endforeach
+                
                 </span>
                   <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
                   <span class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2"
@@ -191,9 +196,13 @@
             <div>
               <!-- Tab panel, show/hide based on tab state. -->
               <div id="tabs-2-panel-1" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
-                <img src="https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-03-product-01.jpg"
-                     alt="Angled front view with bag zipped and handles upright."
-                     class="aspect-square w-full object-cover sm:rounded-lg">
+                @foreach($product->imageproducts as $imagen)
+                  @if($imagen->img_pos === 1)
+                    <img src="{{ asset( $imagen->img_path) }}"
+                         alt="Angled front view with bag zipped and handles upright."
+                         class="aspect-square w-full object-cover sm:rounded-lg">
+                  @endif
+                @endforeach
               </div>
               <!-- More images... -->
             </div>
@@ -335,25 +344,23 @@
               
               <section aria-labelledby="details-heading" class="mt-12">
                 <h2 id="details-heading" class="">Additional details</h2>
-                
                 @foreach($product->featuretitle as $feature)
                   <div class="divide-y divide-gray-200 border-t">
                     <div>
                       <h3>
                         <!-- Expand/collapse question button -->
                         <button type="button"
-                                class="cursor-pointer group relative flex w-full items-center justify-between py-6 text-left"
+                                class="cursor-pointer group relative flex w-full items-center justify-between py-2 my-4 text-left"
                                 aria-controls="disclosure-1" aria-expanded="false">
-                          <!-- Open: "text-indigo-600", Closed: "text-gray-900" -->
-                          <span class="text-sm font-medium text-gray-900"> {{ $feature->title }}</span>
-                          <span class="ml-6 flex items-center">
+                          <span class="text-sm font-medium pl-4 text-gray-900"> {{ $feature->title }}</span>
+                          <span class="ml-6 flex items-center mr-4">
                       <!-- Open: "hidden", Closed: "block" -->
-                      <svg class="block size-6 text-gray-400 group-hover:text-gray-500" fill="none" viewBox="0 0 24 24"
+                      <svg class="block size-6 text-gray-400 group-hover:text-gray-500" fill="none"
+                           viewBox="0 0 24 24"
                            stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                       </svg>
-                            <!-- Open: "block", Closed: "hidden" -->
-                      <svg class="hidden size-6 text-indigo-400 group-hover:text-indigo-500" fill="none"
+                      <svg class="hidden size-6 text-indigo-600 group-hover:text-indigo-500" fill="none"
                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
                            data-slot="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
@@ -363,9 +370,7 @@
                       </h3>
                       <div class="pb-6 hidden" id="disclosure">
                         <ul role="list" class="list-disc space-y-1 pl-5 text-sm/6 text-gray-700 marker:text-gray-300">
-                          @foreach($feature->featureproducts as $texto)
-                            {!! $texto->feature !!}
-                          @endforeach
+                          {!! $feature->text !!}
                         </ul>
                       </div>
                     </div>
@@ -416,10 +421,11 @@
 		
 		botones.forEach((boton, index) => {
 			boton.addEventListener('click', () => {
+				boton.classList.toggle('bg-indigo-50')
 				divs[index].classList.toggle('hidden')
 				let spans = boton.querySelectorAll('span')
 				let svgs = boton.querySelectorAll('svg')
-				spans.forEach(span => span.classList.toggle('text-indigo-400'))
+				spans.forEach(span => span.classList.toggle('text-indigo-600'))
 				svgs.forEach(svg => svg.classList.toggle('hidden'))
 			})
 		})

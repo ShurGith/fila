@@ -22,16 +22,17 @@ models:
 
   Featuretitle:
     title: string
+    text: longtext
     timestamps: false
     relationships:
-      hasMany: Featureproduct
       belongsTo: Product
+      #hasMany: Featureproduct
 
-  Featureproduct:
-    feature: longtext
-    timestamps: false
-    relationships:
-      belongsTo: Featuretitle
+  #  Featureproduct:
+  #    feature: longtext
+  #    timestamps: false
+  #    relationships:
+  #      belongsTo: Featuretitle
 
   Category:
     name: string

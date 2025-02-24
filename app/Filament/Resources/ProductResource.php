@@ -60,25 +60,35 @@
                   ->profile('default')
                   ->output(TiptapOutput::Html)
                   ->columnSpanFull(),
-                Forms\Components\FileUpload::make('images')
-                  ->columnSpanFull()
-                  ->multiple(),
+                
+                Repeater::make('images')
+                  ->label('Imágenes')
+                  ->relationship('imageproducts')
+                  ->schema([
+                    Forms\Components\FileUpload::make('img_path')
+                      ->directory('products')
+                      ->image()
+                      ->imageEditor(),
+                    Forms\Components\TextInput::make('img_pos')
+                      ->numeric(),
+                  ]),
                 
                 Repeater::make('features')
                   ->label('Titulo')
-                  ->relationship('featuretitle') // Relación con el modelo Post
+                  ->relationship('featuretitle')
                   ->schema([
                     TextInput::make('title')->required()->label('nombre'),
-                    Repeater::make('features')
-                      ->label('Texto')
-                      ->required()
-                      ->relationship('featureproducts')
-                      ->schema([
-                        Forms\Components\RichEditor::make('feature')
-                      ])
+                    Forms\Components\RichEditor::make('text')->required()->label('Texto'),
+                      /*  Repeater::make('features')
+                          ->label('Texto')
+                          ->required()
+                          ->relationship('featureproducts')
+                          ->schema([
+                    Forms\Components\RichEditor::make('text')->required()->label('Texto'),
+                      ])*/
                   ])
                   ->label('Detalles')
-                  ->columns(2)
+                  ->grid(2)
                   ->columnSpanFull(),
                 
                 Forms\Components\CheckboxList::make('Categorias')
