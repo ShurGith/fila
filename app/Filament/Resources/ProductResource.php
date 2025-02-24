@@ -3,10 +3,11 @@
     namespace App\Filament\Resources;
     
     use App\Filament\Resources\ProductResource\Pages;
-    use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
     use Filament\Forms;
+    use Filament\Forms\Components\Repeater;
     use Filament\Forms\Components\Split;
+    use Filament\Forms\Components\TextInput;
     use Filament\Forms\Form;
     use Filament\Forms\Get;
     use Filament\Resources\Resource;
@@ -59,6 +60,27 @@
                   ->profile('default')
                   ->output(TiptapOutput::Html)
                   ->columnSpanFull(),
+                Forms\Components\FileUpload::make('images')
+                  ->columnSpanFull()
+                  ->multiple(),
+                
+                Repeater::make('features')
+                  ->label('Titulo')
+                  ->relationship('featuretitle') // Relación con el modelo Post
+                  ->schema([
+                    TextInput::make('title')->required()->label('nombre'),
+                    Repeater::make('features')
+                      ->label('Texto')
+                      ->required()
+                      ->relationship('featureproducts')
+                      ->schema([
+                        Forms\Components\RichEditor::make('feature')
+                      ])
+                  ])
+                  ->label('Detalles')
+                  ->columns(2)
+                  ->columnSpanFull(),
+                
                 Forms\Components\CheckboxList::make('Categorias')
                   ->relationship('categories', 'name')
                   ->getOptionLabelFromRecordUsing(fn(Model $record
@@ -131,7 +153,7 @@
         {
             return [
                 //  RelationManagers\CatprodsRelationManager::class,
-                //  RelationManagers\UserRelationManager::class,
+                //  ProductResource\RelationManagers\FeaturesRelationManager::class,
             ];
         }
         

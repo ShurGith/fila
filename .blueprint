@@ -2,16 +2,22 @@ created:
     - app/Http/Controllers/ProductController.php
     - database/factories/ProductFactory.php
     - database/factories/ImageproductFactory.php
+    - database/factories/FeaturetitleFactory.php
+    - database/factories/FeatureproductFactory.php
     - database/factories/CategoryFactory.php
     - database/factories/TagFactory.php
-    - database/migrations/2025_02_20_131023_create_products_table.php
-    - database/migrations/2025_02_20_131024_create_imageproducts_table.php
-    - database/migrations/2025_02_20_131025_create_categories_table.php
-    - database/migrations/2025_02_20_131026_create_tags_table.php
-    - database/migrations/2025_02_20_131027_create_product_tag_table.php
-    - database/migrations/2025_02_20_131028_create_category_product_table.php
+    - database/migrations/2025_02_24_124905_create_products_table.php
+    - database/migrations/2025_02_24_124906_create_imageproducts_table.php
+    - database/migrations/2025_02_24_124907_create_featuretitles_table.php
+    - database/migrations/2025_02_24_124908_create_featureproducts_table.php
+    - database/migrations/2025_02_24_124909_create_categories_table.php
+    - database/migrations/2025_02_24_124910_create_tags_table.php
+    - database/migrations/2025_02_24_124911_create_product_tag_table.php
+    - database/migrations/2025_02_24_124912_create_category_product_table.php
     - app/Models/Product.php
     - app/Models/Imageproduct.php
+    - app/Models/Featuretitle.php
+    - app/Models/Featureproduct.php
     - app/Models/Category.php
     - app/Models/Tag.php
     - tests/Feature/Http/Controllers/ProductControllerTest.php
@@ -23,8 +29,11 @@ skipped:
     - resources/views/product/show.blade.php
     - resources/views/product/edit.blade.php
 models:
-    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
-    Product: { name: string, description: 'longtext nullable', price: 'integer nullable', active: 'boolean default:1', oferta: 'boolean default:0', descuento: 'integer nullable', units: 'integer nullable', relationships: { hasMany: Imageproduct, belongsToMany: 'Tag, Category', belongsTo: User } }
+    Blog: {  }
+    User: { name: string, email: string, avatar: 'string nullable', email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Product: { name: string, description: 'longtext nullable', features: 'longtext nullable', price: 'integer nullable', active: 'boolean default:1', oferta: 'boolean default:0', descuento: 'integer nullable', units: 'integer nullable', relationships: { hasMany: 'Imageproduct, Featureproduct', belongsToMany: 'Tag, Category', belongsTo: User } }
     Imageproduct: { img_path: string, img_pos: integer, timestamps: false, relationships: { belongsTo: Product } }
+    Featuretitle: { title: string, timestamps: false, relationships: { hasMany: Featureproduct, belongsTo: Product } }
+    Featureproduct: { feature: longtext, timestamps: false, relationships: { belongsTo: Featuretitle } }
     Category: { name: string, bgcolor: 'text nullable', color: 'string nullable', image: 'text nullable', icon: 'text nullable', icon_active: 'boolean default:0', timestamps: false, relationships: { hasMany: Tag } }
     Tag: { name: string, bgcolor: 'text nullable', color: 'string nullable', image: 'text nullable', icon: 'text nullable', icon_active: 'boolean default:0', timestamps: false, relationships: { hasMany: Product, belongsTo: Category } }

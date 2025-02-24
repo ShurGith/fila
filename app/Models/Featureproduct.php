@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Tag extends Model
+class Featureproduct extends Model
 {
     use HasFactory;
 
@@ -24,13 +23,8 @@ class Tag extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'bgcolor',
-        'color',
-        'image',
-        'icon',
-        'icon_active',
-        'category_id',
+        'feature',
+        'featuretitle_id',
     ];
 
     /**
@@ -40,17 +34,11 @@ class Tag extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'icon_active' => 'boolean',
-        'category_id' => 'integer',
+        'featuretitle_id' => 'integer',
     ];
 
-    public function products(): HasMany
+    public function featuretitle(): BelongsTo
     {
-        return $this->hasMany(Product::class);
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Featuretitle::class);
     }
 }

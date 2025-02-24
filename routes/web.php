@@ -11,3 +11,8 @@
     Route::resource('products', ProductController::class);
     Route::resource('blog', BlogController::class);
     Route::get('/lang/{lang}', [LanguageController::class, 'switch'])->name('lang');
+
+Route::resource('products', App\Http\Controllers\ProductController::class);
+
+
+Route::resource('products', App\Http\Controllers\ProductController::class);

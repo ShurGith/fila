@@ -20,6 +20,7 @@
         protected $fillable = [
           'name',
           'description',
+          'features',
           'price',
           'active',
           'oferta',
@@ -45,14 +46,19 @@
             return $this->hasMany(Imageproduct::class);
         }
         
+        public function featuretitle(): HasMany
+        {
+            return $this->hasMany(Featuretitle::class);
+        }
+        
         public function tags(): BelongsToMany
         {
-            return $this->belongsToMany(Tag::class, 'product_tag', 'product_id', 'tag_id');
+            return $this->belongsToMany(Tag::class);
         }
         
         public function categories(): BelongsToMany
         {
-            return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
+            return $this->belongsToMany(Category::class);
         }
         
         public function user(): BelongsTo

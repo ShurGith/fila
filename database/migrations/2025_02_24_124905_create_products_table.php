@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
+            $table->longText('features')->nullable();
             $table->integer('price')->nullable();
             $table->boolean('active')->default(1);
             $table->boolean('oferta')->default(0);

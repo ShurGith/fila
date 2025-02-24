@@ -2,13 +2,14 @@ models:
   Product:
     name: string
     description: longtext nullable
+    features: longtext nullable
     price: integer nullable
     active: boolean default:1
     oferta: boolean default:0
     descuento: integer nullable
     units: integer nullable
     relationships:
-      hasMany: Imageproduct
+      hasMany: Imageproduct, Featuretitle
       belongsToMany: Tag, Category
       belongsTo: User
 
@@ -18,6 +19,19 @@ models:
     timestamps: false
     relationships:
       belongsTo: Product
+
+  Featuretitle:
+    title: string
+    timestamps: false
+    relationships:
+      hasMany: Featureproduct
+      belongsTo: Product
+
+  Featureproduct:
+    feature: longtext
+    timestamps: false
+    relationships:
+      belongsTo: Featuretitle
 
   Category:
     name: string
@@ -29,7 +43,6 @@ models:
     timestamps: false
     relationships:
       hasMany: Tag
-
 
   Tag:
     name: string
