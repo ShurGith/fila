@@ -77,7 +77,7 @@
                 
                 Repeater::make('features')
                   ->label('Titulo')
-                  ->relationship('featuretitle')
+                  ->relationship('featuretitles')
                   ->schema([
                     TextInput::make('title')->required()->label('nombre'),
                     Forms\Components\RichEditor::make('text')->required()->label('Texto'),

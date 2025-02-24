@@ -46,7 +46,7 @@
             return $this->hasMany(Imageproduct::class);
         }
         
-        public function featuretitle(): HasMany
+        public function featuretitles(): HasMany
         {
             return $this->hasMany(Featuretitle::class);
         }

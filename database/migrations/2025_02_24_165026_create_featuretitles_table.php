@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('featuretitles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->longText('text');
             $table->foreignId('product_id');
         });
     }

@@ -176,26 +176,26 @@
                             class="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500/50 focus:ring-offset-4"
                             aria-controls="tabs-2-panel-1" role="tab" type="button">
                       <span class="sr-only">Angled view</span>
-                      <span class="absolute inset-0 overflow-hidden rounded-md">
-                        <img src="{{ asset( $imagen->img_path) }}" img-role="imgs-slider"
-                             alt="" class="size-full object-cover">
-                </span>
+                      
                       <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
                       <span
-                        class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2"
+                        class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-indigo-500 ring-transparent ring-offset-2"
                         aria-hidden="true"></span>
+                      <span class="absolute inset-0 overflow-hidden rounded-md">
+                        <img src="{{ asset( $imagen->img_path) }}" img-role="img-slider"
+                             alt="" class="size-full object-cover">
+                </span>
                     </button>
                   @endif
                 @endforeach
               </div>
             </div>
-            
             <div>
               <!-- Tab panel, show/hide based on tab state. -->
               <div id="img-div" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
                 @foreach($product->imageproducts as $imagen)
                   @if($imagen->img_pos === 1)
-                    <img src="{{ asset( $imagen->img_path) }}" id="img-ppal" img-role="imgs-slider"
+                    <img src="{{ asset( $imagen->img_path) }}" id="img-ppal" img-role="img-slider"
                          alt="Angled front view with bag zipped and handles upright."
                          class="aspect-square w-full object-cover sm:rounded-lg">
                   @endif
@@ -228,6 +228,8 @@
                       class="text-xs pl-1 align-super  ">{{ decimales( $product->price ) }}</span> €</h4>
                 @endif
               </div>
+              $product->name }}</h1>
+              <!--Fin Precio -->
               
               <!-- Reviews -->
               <div class="mt-3">
@@ -273,6 +275,7 @@
                   <p class="sr-only">4 out of 5 stars</p>
                 </div>
               </div>
+              <!--Fin Reviews-->
               
               <div class="mt-6">
                 <h3 class="sr-only">Description</h3>
@@ -295,7 +298,6 @@
                 <!-- Colors -->
                 <div>
                   <h3 class="text-sm text-gray-600">Color</h3>
-                  
                   <fieldset aria-label="Choose a color" class="mt-2">
                     <div class="flex items-center gap-x-3">
                       <!-- Active and Checked: "ring ring-offset-1" -->
@@ -319,13 +321,14 @@
                     </div>
                   </fieldset>
                 </div>
-                
+                <!-- Fin Colors -->
+                <!--Boton Add to Bag -->
                 <div class="mt-10 flex">
                   <button type="submit"
                           class="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
                     Add to bag
                   </button>
-                  
+                  <!-- Corazón Favoritos -->
                   <button type="button"
                           class="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                     <svg class="size-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -336,12 +339,14 @@
                     </svg>
                     <span class="sr-only">Add to favorites</span>
                   </button>
+                  <!-- Fin Corazón Favoritos -->
                 </div>
+                <!--Fin Boton Add to Bag -->
               </form>
               
               <section aria-labelledby="details-heading" class="mt-12">
                 <h2 id="details-heading" class="">Additional details</h2>
-                @foreach($product->featuretitle as $feature)
+                @foreach($product->featuretitles as $feature)
                   <div class="divide-y divide-gray-200 border-t">
                     <div>
                       <h3>
@@ -377,6 +382,7 @@
               </section>
             </div>
           </div>
+          <!-- FinProduct info -->
           <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
             <h2 id="related-heading" class="text-xl font-bold text-gray-900">Customers also bought</h2>
             <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
@@ -429,10 +435,20 @@
 			})
 		})
 		
+		function clickClassImg(img) {
+			imagenes.forEach((imag) => {
+				elem = imag.parentElement.previousElementSibling
+				if (elem)
+					elem.classList.add('ring-transparent')
+				img.parentElement.previousElementSibling.classList.remove('ring-transparent')
+				imagPal.src = img.src
+			})
+			//elemento.parentElement.previousElementSibling.classList.add('ring-transparent')
+		}
+		
 		imagenes.forEach(img => {
-			img.addEventListener('click', () => {
-				imagPal.src = img.src;
-				console.log(imagPal.src, img.src)
+			img.addEventListener('click', function () {
+				clickClassImg(this)
 			})
 		})
 		
