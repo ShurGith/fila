@@ -71,7 +71,9 @@
                       ->imageEditor(),
                     Forms\Components\TextInput::make('img_pos')
                       ->numeric(),
-                  ]),
+                  ])
+                  ->grid(2)
+                  ->columnSpanFull(),
                 
                 Repeater::make('features')
                   ->label('Titulo')

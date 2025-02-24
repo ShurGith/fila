@@ -144,9 +144,7 @@
                         <div class="flex justify-center items-center gap-1 w-fit py-1 px-1 ml-4 mt-[2px] rounded"
                              style="background:{{ $tag->bgcolor }}">
                           @if($tag->icon_active)
-                            <div style="color:{{$tag->color}}">
-                              {!!$tag->icon!!}
-                            </div>
+                            <div style="color:{{$tag->color}}">{!!$tag->icon!!}</div>
                           @elseif($tag->image)
                             <img src="{{asset($tag->image)}}" class="w-6 rounded-full">
                           @endif
@@ -172,33 +170,32 @@
             <!-- Image selector -->
             <div class="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
               <div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
-                <button id="tabs-2-tab-1"
-                        class="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500/50 focus:ring-offset-4"
-                        aria-controls="tabs-2-panel-1" role="tab" type="button">
-                  <span class="sr-only">Angled view</span>
-                  <span class="absolute inset-0 overflow-hidden rounded-md">
-                  @foreach($product->imageproducts as $imagen)
-                      @if($imagen->img_pos === 1)
-                        <img src="{{ asset( $imagen->img_path) }}"
+                @foreach($product->imageproducts as $imagen)
+                  @if($imagen->img_pos !== 1)
+                    <button id="tabs-2-tab-1"
+                            class="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500/50 focus:ring-offset-4"
+                            aria-controls="tabs-2-panel-1" role="tab" type="button">
+                      <span class="sr-only">Angled view</span>
+                      <span class="absolute inset-0 overflow-hidden rounded-md">
+                        <img src="{{ asset( $imagen->img_path) }}" img-role="imgs-slider"
                              alt="" class="size-full object-cover">
-                      @endif
-                    @endforeach
-                
                 </span>
-                  <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
-                  <span class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2"
+                      <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
+                      <span
+                        class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2"
                         aria-hidden="true"></span>
-                </button>
-                <!-- More images... -->
+                    </button>
+                  @endif
+                @endforeach
               </div>
             </div>
             
             <div>
               <!-- Tab panel, show/hide based on tab state. -->
-              <div id="tabs-2-panel-1" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
+              <div id="img-div" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
                 @foreach($product->imageproducts as $imagen)
                   @if($imagen->img_pos === 1)
-                    <img src="{{ asset( $imagen->img_path) }}"
+                    <img src="{{ asset( $imagen->img_path) }}" id="img-ppal" img-role="imgs-slider"
                          alt="Angled front view with bag zipped and handles upright."
                          class="aspect-square w-full object-cover sm:rounded-lg">
                   @endif
@@ -417,8 +414,10 @@
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const botones = document.querySelectorAll('[aria-controls = disclosure-1]'),
-			divs = document.querySelectorAll('#disclosure')
-		
+			divs = document.querySelectorAll('#disclosure'),
+			imagPal = document.querySelector('#img-ppal'),
+			imagenes = document.querySelectorAll('[img-role = img-slider]')
+		console.dir(imagenes)
 		botones.forEach((boton, index) => {
 			boton.addEventListener('click', () => {
 				boton.classList.toggle('bg-indigo-50')
@@ -429,5 +428,14 @@
 				svgs.forEach(svg => svg.classList.toggle('hidden'))
 			})
 		})
+		
+		imagenes.forEach(img => {
+			img.addEventListener('click', () => {
+				imagPal.src = img.src;
+				console.log(imagPal.src, img.src)
+			})
+		})
+		
+		
 	})
 </script>
