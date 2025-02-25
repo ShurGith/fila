@@ -1,5 +1,3 @@
-<x-partials.precios/>
-
 <x-layouts.app :meta-title="$product->name" :header-text="$product->name">
   <link rel="stylesheet" href="../css/show.css">
   <section class="mx-auto max-w-2xl lg:max-w-none">
@@ -50,22 +48,14 @@
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ $product->name }}</h1>
         <!-- Precio -->
         <div class="mt-3">
-          @php
-            $precio_venta  = $product->price;
-           if($product->oferta){
-               $descuento = $product->descuento;
-               $precio_final =   $product->price  * ((100-$descuento)/100);
-             }else{
-               $precio_final = $product->price;
-             }
-          @endphp
           <div class="flex items-center gap-8">
-            <h4 class="text-3xl font-medium text-gray-900">{{ enteros($precio_final) }}<span
-                class="text-xl pl-1 align-super  ">{{ decimales($precio_final) }}</span>
+            <h4 class="text-3xl font-medium text-gray-900">{{ $product->precios(false) }}<span
+                class="text-xl pl-1 align-super  ">{{ $product->precios(false, true) }}</span>
               €</h4>
             @if($product->oferta)
-              <h4 class="line-through text-xl font-medium text-gray-900">{{ enteros( $product->price ) }}<span
-                  class="text-xs pl-1 align-super  ">{{ decimales( $product->price ) }}</span> €</h4>
+              <h4 class="line-through text-xl font-medium text-gray-900">{{  $product->precios( true ) }}
+                <span
+                  class="text-xs pl-1 align-super  ">{{  $product->precios( true, true ) }}</span> €</h4>
             @endif
           </div>
           <!-- Fin Precio -->
@@ -311,22 +301,13 @@
             @endif
           </div>
           <div class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-            @php
-              $precio_venta  = $random->price;
-             if($random->oferta){
-                 $descuento = $random->descuento;
-                 $precio_final =   $random->price  * ((100-$descuento)/100);
-               }else{
-                 $precio_final = $random->price;
-               }
-            @endphp
             <div aria-hidden="true"
                  class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
-            <p class="relative text-lg font-semibold text-white">{{enteros($precio_final)}}
-              <span class="align-super text-base">{{decimales($precio_final)}}</span> €</p>
+            <p class="relative text-lg font-semibold text-white">{{$random->precios($random->oferta)}}
+              <span class="align-super text-base">{{$random->precios($random->oferta, true)}}</span> €</p>
           </div>
           <a href="{{ route('products.show', $random) }}"
-             class="absolute left-2 bottom-4 flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Ver</span></a>
+             class="absolute left-2 bottom-4 flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Ver</a>
         
         </div>
       @endforeach

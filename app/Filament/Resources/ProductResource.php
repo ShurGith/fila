@@ -93,8 +93,8 @@
                 Forms\Components\CheckboxList::make('Categorias')
                   ->relationship('categories', 'name')
                   ->getOptionLabelFromRecordUsing(fn(Model $record
-                  ) => "{$record->id} {$record->name} ")
-                  ->live(),
+                  ) => "{$record->id} {$record->name} "),
+                
                 Forms\Components\CheckboxList::make('Etiquetas')
                   ->label('Etiquetas')
                   ->relationship('tags')

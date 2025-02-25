@@ -1,4 +1,3 @@
-<x-partials.precios/>
 <div class="-mx-px gap-2 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
   @foreach($products as $product)
     <div class="flex flex-col justify-start bg-gray-100 group relative border-b border-r rounded border-gray-200 p-2">
@@ -80,22 +79,13 @@
         </div>
         <div class="w-full mt-4">
           <!-- ### PRECIOS ### -->
-          @php
-            $precio_venta  = $product->price;
-           if($product->oferta){
-               $descuento = $product->descuento;
-               $precio_final =   $product->price  * ((100-$descuento)/100);
-             }else{
-               $precio_final = $product->price;
-             }
-          @endphp
           <div class="flex justify-center gap-8">
             @if($product->oferta)
-              <h4 class="line-through text-sm font-medium text-gray-900">{{ enteros( $product->price ) }}<span
-                  class="text-xs pl-1 align-super  ">{{ decimales( $product->price ) }}</span> €</h4>
+              <h4 class="line-through text-sm font-medium text-gray-900">{{ $product->precios( false ) }}<span
+                  class="text-xs pl-1 align-super  ">{{ $product->precios( false, true ) }}</span> €</h4>
             @endif
-            <h4 class="text-base font-medium text-gray-900">{{ enteros($precio_final) }}<span
-                class="text-xs pl-1 align-super  ">{{ decimales($precio_final) }}</span>
+            <h4 class="text-base font-medium text-gray-900">{{ $product->precios(true) }}<span
+                class="text-xs pl-1 align-super  ">{{ $product->precios(true,true) }}</span>
               €</h4>
           </div>
           <div class="flex flex-col items-center gap-2 justify-center mt-4">
@@ -122,9 +112,6 @@
           </div>
           <!-- ## CATERGORÍAS ## -->
           <div class="mt-4 w-full p-4">
-            @php
-              $categs=[];
-            @endphp
             <div class="grid grid-cols-2">
               @foreach($product->categories as $category)
                 <div class="mb-2">

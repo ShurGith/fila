@@ -12,11 +12,6 @@
     {
         use HasFactory;
         
-        /**
-         * The attributes that are mass assignable.
-         *
-         * @var array
-         */
         protected $fillable = [
           'name',
           'description',
@@ -29,11 +24,6 @@
           'user_id',
         ];
         
-        /**
-         * The attributes that should be cast to native types.
-         *
-         * @var array
-         */
         protected $casts = [
           'id' => 'integer',
           'active' => 'boolean',
@@ -74,4 +64,25 @@
                 }
             }
         }
+        
+        public function precios($descuento, $decimales = false): string
+        {
+            if ($descuento && $this->oferta) {
+                $precio_final = $this->price * ((100 - $this->descuento) / 100);
+            } else {
+                $precio_final = $this->price;
+            }
+            if ($decimales) {
+                return substr($this->formatoPrecio($precio_final), -2);
+            }
+            
+            return substr($this->formatoPrecio($precio_final), 0, strpos($this->formatoPrecio($precio_final), "'") + 1);
+        }
+        
+        public function formatoPrecio($valor)
+        {
+            return number_format($valor / 100, 2, "'", ".");
+        }
+        
+        
     }

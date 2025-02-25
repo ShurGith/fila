@@ -31,6 +31,7 @@
                 Forms\Components\FileUpload::make('avatar')
                   ->directory('/images/avatars')
                   ->avatar()
+                  ->image()
                   ->imageEditor()
                   ->circleCropper(),
                 Forms\Components\DateTimePicker::make('email_verified_at'),

@@ -13,10 +13,10 @@
     {
         public function index(Request $request): View
         {
-            $products = Product::all();
+            $products = Product::paginate(12);
             
             return view('product.index', [
-              'products' => $products,
+              'products' => $products
             ]);
         }
         
@@ -41,7 +41,6 @@
             for ($i = 0; $i < 4; $i++) {
                 $randoms[] = Product::find(rand($i, Product::count()));
             }
-            //$imgPpal = $product->imageproducts[0]->img_path;
             foreach ($product->imageproducts as $imgPal) {
                 if ($imgPal->img_position === 1) {
                     $impath = $imgPal->img_paht;

@@ -1,4 +1,4 @@
-<x-layouts.app :meta-title="'Productos:'.$titulo " :header-text="'Productos: '.$titulo">
+<x-layouts.app :meta-title="'Listado de Productos'" :header-text="'Listado de Productos'">
   
   <x-products-list :products="$products"/>
 
