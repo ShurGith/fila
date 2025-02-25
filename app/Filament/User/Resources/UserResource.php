@@ -7,6 +7,7 @@
     use App\Models\User;
     use Auth;
     use Filament\Forms\Form;
+    use Filament\Infolists\Components\ImageEntry;
     use Filament\Infolists\Components\TextEntry;
     use Filament\Infolists\Infolist;
     use Filament\Resources\Resource;
@@ -58,7 +59,7 @@
                 Tables\Actions\EditAction::make()
                   ->slideOver(),
                 Tables\Actions\ViewAction::make()
-                  ->slideOver(),
+                  ->slideOver()
               ])
               ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -88,7 +89,19 @@
             return $infolist
               ->schema([
                 TextEntry::make('name'),
-                TextEntry::make('email')
+                TextEntry::make('email'),
+                TextEntry::make('products.name')
+                  ->columns(2)
+                  ->icon('heroicon-m-shopping-bag')
+                  ->iconColor('primary')
+                  ->listWithLineBreaks()
+                  ->limitList(2)
+                  ->badge()
+                  ->expandableLimitedList(),
+                ImageEntry::make('avatar')
+                  ->circular()
+                  ->defaultImageUrl(url('https://placehold.co/400'))
+              
               ]);
         }
         
