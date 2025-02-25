@@ -9,9 +9,14 @@
                  class="aspect-square rounded-lg bg-gray-200 object-cover group-hover:opacity-75 max-h-38">
           @endif
         @endforeach
-        @if($product->imageproducts->count() === 0 )
+        @php
+          $imgPpal = $product->getImgPal();
+        @endphp
+        @if( $imgPpal === null )
           <img src="{{ Avatar::create($product->name)->toBase64() }}"
                alt="TODO" class="group-hover:opacity-70">
+        @else
+          <img src="{{ asset( $imgPpal ) }}" alt="{{$product->name."imagen-principal"}}">
         @endif
       </div>
       <div class="pb-4 pt-2 min-h-20 gap-2 flex flex-col items-center">

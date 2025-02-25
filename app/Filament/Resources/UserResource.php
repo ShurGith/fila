@@ -29,8 +29,7 @@
                   ->required()
                   ->maxLength(255),
                 Forms\Components\FileUpload::make('avatar')
-                  ->directory('avatars')
-                  ->image()
+                  ->directory('/images/avatars')
                   ->avatar()
                   ->imageEditor()
                   ->circleCropper(),

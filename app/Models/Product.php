@@ -65,4 +65,13 @@
         {
             return $this->belongsTo(User::class);
         }
+        
+        public function getImgPal()
+        {
+            foreach ($this->imageproducts as $image) {
+                if ($image->img_pos === 1) {
+                    return $image->img_path;
+                }
+            }
+        }
     }

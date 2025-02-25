@@ -1,8 +1,9 @@
 <?php
     
-    namespace App\Filament\Resources;
+    namespace App\Filament\User\Resources;
     
-    use App\Filament\Resources\ProductResource\Pages;
+    use App\Filament\User\Resources\ProductResource\Pages;
+    use App\Filament\User\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
     use Filament\Forms;
     use Filament\Forms\Components\Repeater;
@@ -15,22 +16,31 @@
     use Filament\Tables\Table;
     use FilamentTiptapEditor\Enums\TiptapOutput;
     use FilamentTiptapEditor\TiptapEditor;
+    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Facades\Auth;
     
     class ProductResource extends Resource
     {
         protected static ?string $model = Product::class;
         
-        protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
-        protected static ?string $navigationGroup = 'Productos';
-        protected static ?string $modelLabel = 'producto';
+        protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+        protected static ?string $navigationGroup = 'Usuario';
+        protected static ?int $navigationSort = 2;
+        
         protected static ?string $navigationLabel = 'Productos en venta';
-        public Catprod $category;
+        
+        public static function getEloquentQuery(): Builder
+        {
+            return parent::getEloquentQuery()->where('user_id', Auth::user()->id);
+        }
         
         public static function form(Form $form): Form
         {
             return $form
               ->schema([
+                Forms\Components\Hidden::make('user_id')
+                  ->default(auth()->id()),
                 Forms\Components\TextInput::make('name')
                   ->label('Producto')
                   ->required()
@@ -42,11 +52,6 @@
                     ->label('Activo'),
                 ]),
                 Split::make([
-                  Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->label('Vendedor')
-                    ->columnSpan(2)
-                    ->required(),
                   Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->columnSpan(2)
@@ -173,5 +178,12 @@
               'create' => Pages\CreateProduct::route('/create'),
               'edit' => Pages\EditProduct::route('/{record}/edit'),
             ];
+        }
+        
+        protected function mutateFormDataBeforeCreate(array $data): array
+        {
+            $data['user_id'] = auth()->id();
+            
+            return $data;
         }
     }

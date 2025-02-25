@@ -37,19 +37,10 @@
             @if($product->imageproducts->count() === 0 )
               <img src="{{ Avatar::create($product->name)->toBase64() }}" id="img-ppal" img-role="img-slider">
             @else
-              @foreach ($product->imageproducts as $imgPal)
-                @if($imgPal->img_pos === 1)
-                  <img src="{{ asset($imagen->img_path) }}" id="img-ppal" img-role="img-slider"
-                       alt="{{$imagen->img_path}}"
-                       class="aspect-square w-full object-cover sm:rounded-lg">
-                @endif
-              @endforeach
+              <img src="{{ asset($product->getImgPal()) }}" id="img-ppal" img-role="img-slider"
+                   alt="{{$product->name . ' - imagen producto'}}"
+                   class="aspect-square w-full object-cover sm:rounded-lg">
             @endif
-            {{--  @foreach($product->imageproducts as $imagen)
-                @if($imagen->img_pos === 1)--}}
-            
-            {{--        @endif
-                  @endforeach--}}
           </div>
           <!-- More images... -->
         </div>
@@ -369,7 +360,10 @@
 				if (elem)
 					elem.classList.add('ring-transparent')
 				img.parentElement.previousElementSibling.classList.remove('ring-transparent')
-				imagPal.src = img.src
+				const srcTumb = img.src
+				const srcPal = imagPal.src
+				imagPal.src = srcTumb
+				img.src = srcPal
 			})
 		}
 		

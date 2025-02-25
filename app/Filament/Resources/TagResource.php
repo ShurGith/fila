@@ -40,7 +40,7 @@
                 ])->columnSpanFull(),
                 Forms\Components\Split::make([
                   Forms\Components\FileUpload::make('image')
-                    ->directory('tag_images')
+                    ->directory('images/products/tag_images')
                     ->image()
                     ->imageEditor(),
                   Forms\Components\Textarea::make('icon'),
