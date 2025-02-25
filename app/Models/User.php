@@ -49,14 +49,15 @@
             }
         }
         
+        public function getCountProducts(): int
+        {
+            //return Product::where('user_id', $this->id)->count();
+            return $this->products()->count();
+        }
+        
         public function products(): HasMany
         {
             return $this->hasMany(Product::class);
-        }
-        
-        public function getCountProducts(): int
-        {
-            return Product::where('user_id', $this->id)->count();
         }
         
         protected function casts(): array
