@@ -50,7 +50,11 @@
                   Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->columnSpan(2)
-                    ->prefix('$'),
+                    ->prefix('€'),
+                  Forms\Components\TextInput::make('units')
+                    ->label('Unidades en Venta')
+                    ->numeric()
+                    ->columnSpan(2),
                   Forms\Components\TextInput::make('descuento')
                     ->numeric()
                     ->columnSpan(6)
@@ -70,7 +74,7 @@
                       ->image()
                       ->imageEditor(),
                     Forms\Components\TextInput::make('img_pos')
-                      ->numeric(),
+                      ->numeric()->required(),
                   ])
                   ->grid(2)
                   ->columnSpanFull(),
