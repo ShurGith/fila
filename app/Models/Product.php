@@ -7,6 +7,7 @@
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
     use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     use Illuminate\Database\Eloquent\Relations\HasMany;
+    use Laravolt\Avatar\Facade as Avatar;
     
     class Product extends Model
     {
@@ -31,6 +32,18 @@
           'user_id' => 'integer',
         ];
         
+        public function getImgPal()
+        {
+            if ($this->imageproducts->count() === 0) {
+                return Avatar::create($this->name)->toBase64();
+            }
+            foreach ($this->imageproducts as $image) {
+                if ($image->img_pos === 1) {
+                    return asset($image->img_path);
+                }
+            }
+        }
+        
         public function imageproducts(): HasMany
         {
             return $this->hasMany(Imageproduct::class);
@@ -54,15 +67,6 @@
         public function user(): BelongsTo
         {
             return $this->belongsTo(User::class);
-        }
-        
-        public function getImgPal()
-        {
-            foreach ($this->imageproducts as $image) {
-                if ($image->img_pos === 1) {
-                    return $image->img_path;
-                }
-            }
         }
         
         public function precios($descuento, $decimales = false): string

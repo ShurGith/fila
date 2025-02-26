@@ -2,21 +2,8 @@
   @foreach($products as $product)
     <div class="flex flex-col justify-start bg-gray-100 group relative border-b border-r rounded border-gray-200 p-2">
       <div class="flex flex-col items-center gap-4">
-        @foreach($product->imageproducts as $imagen)
-          @if($imagen->img_position === 1)
-            <img src="{{ asset('storage/'.$imagen->image_path) }}" alt="TODO"
-                 class="aspect-square rounded-lg bg-gray-200 object-cover group-hover:opacity-75 max-h-38">
-          @endif
-        @endforeach
-        @php
-          $imgPpal = $product->getImgPal();
-        @endphp
-        @if( $imgPpal === null )
-          <img src="{{ Avatar::create($product->name)->toBase64() }}"
-               alt="TODO" class="group-hover:opacity-70">
-        @else
-          <img src="{{ asset( $imgPpal ) }}" alt="{{$product->name."imagen-principal"}}">
-        @endif
+        <img src="{{ $product->getImgPal() }}" alt="{{$product->name."imagen-principal"}}"
+             class="aspect-square rounded-lg bg-gray-200 object-cover group-hover:opacity-75 max-w-28">
       </div>
       <div class="pb-4 pt-2 min-h-20 gap-2 flex flex-col items-center">
         <h3 class="text-xl font-medium text-gray-900">

@@ -8,9 +8,6 @@
         <!-- Image selector -->
         <div class="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
           <div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
-            {{--            @if($product->imageproducts->count() === 0 )
-                          <img src="{{ Avatar::create($product->name)->toBase64() }}" alt="TODO">
-                        @endif--}}
             @foreach($product->imageproducts as $imagen)
               @if($imagen->img_pos !== 1)
                 <button id="tabs-2-tab-1"
@@ -32,13 +29,9 @@
         <div>
           <!-- Tab panel, show/hide based on tab state. -->
           <div id="img-div" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
-            @if($product->imageproducts->count() === 0 )
-              <img src="{{ Avatar::create($product->name)->toBase64() }}" id="img-ppal" img-role="img-slider">
-            @else
-              <img src="{{ asset($product->getImgPal()) }}" id="img-ppal" img-role="img-slider"
-                   alt="{{$product->name . ' - imagen producto'}}"
-                   class="aspect-square w-full object-cover sm:rounded-lg">
-            @endif
+            <img src="{{ $product->getImgPal() }}" id="img-ppal" img-role="img-slider"
+                 alt="{{$product->name . ' - imagen producto'}}"
+                 class="aspect-square w-full object-cover sm:rounded-lg">
           </div>
           <!-- More images... -->
         </div>
@@ -159,8 +152,8 @@
                   Add to bag
                 </a>
                 <!-- Corazón Favoritos -->
-                <button type="button"
-                        class="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                <button type="button" data-id="{{ $product->id }}"
+                        class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                   <svg class="size-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor"
                        aria-hidden="true" data-slot="icon">
@@ -189,7 +182,7 @@
   <section aria-labelledby="details-heading" class="mt-12 grid sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-12">
     <!-- Detalles Adicionales -->
     <div>
-      <h2 id="details-heading" class="">Additional details</h2>
+      <h2 id="details-heading" class="">{{ __('Additional details') }}</h2>
       @foreach($product->featuretitles as $feature)
         <div class="divide-y divide-gray-200 border-t">
           <div>
@@ -280,24 +273,19 @@
       
       @foreach($randoms as $random)
         <div class="relative h-72 w-full overflow-hidden rounded-lg">
-          @php
-            if($random->imageproducts->count() === 0 )
-                $img =  Avatar::create($random->name)->toBase64();
-            else
-                foreach ($random->imageproducts as $imgrandom)
-                    if($imgrandom->img_pos === 1)
-                        $img = asset($imgrandom->img_path)
-          @endphp
-          
           <img
-            src="{{ $img }}"
+            src="{{ $random->getImgPal() }}"
             alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
             class="size-full object-cover">
           
           <div class="absolute top-2 ">
             <h3 class="text-sm font-medium text-gray-900">{{ $random->name }}</h3>
             @if($random->descuento)
-              <p class="mt-1 text-sm text-red-500">White and black</p>
+              <span
+                class="inline-flex items-center gap-x-1.5 rounded-md bg-green-600 px-2 py-1 text-xs font-medium text-green-50 ring-1 ring-inset ring-green-500"><svg
+                  class="size-1.5 fill-green-50" viewBox="0 0 6 6" aria-hidden="true">  <circle cx="3" cy="3"
+                                                                                                r="3"/> </svg>
+          {{ $random->descuento .'% '. __('Discount') }}</span>
             @endif
           </div>
           <div class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
@@ -323,7 +311,7 @@
 			divs = document.querySelectorAll('#disclosure'),
 			imagPal = document.querySelector('#img-ppal'),
 			imagenes = document.querySelectorAll('[img-role = img-slider]')
-		console.dir(imagenes)
+		//console.dir(imagenes)
 		botones.forEach((boton, index) => {
 			boton.addEventListener('click', () => {
 				boton.classList.toggle('bg-indigo-50')
@@ -353,7 +341,34 @@
 				clickClassImg(this)
 			})
 		})
-		
+		document.querySelectorAll(".favorite-btn").forEach(button => {
+			button.addEventListener("click", function () {
+				let productId = this.getAttribute("data-id");
+				
+				const containsString = (obj, str) => {
+					return Object.values(obj).some(value =>
+						typeof value === 'string' && value.includes(str)
+					);
+				};
+				
+				fetch(`/favorites/toggle/${productId}`, {
+					method: "POST",
+					headers: {
+						"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+						"Content-Type": "application/json"
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						console.log(containsString(data.favorites, productId))
+						if (containsString(data.favorites, productId)) {
+							this.innerHTML = "✅ En Favoritos";
+						} else {
+							this.innerHTML = "❤️ Añadir a Favoritos";
+						}
+					});
+			});
+		});
 		
 	})
 </script>

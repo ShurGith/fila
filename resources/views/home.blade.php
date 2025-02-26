@@ -3,5 +3,4 @@
     <h3 class="mb-4 text-xl">{{ __('Last Products') }}</h3>
     <x-products-list :products="$products"/>
   </div>
-
 </x-layouts.app>

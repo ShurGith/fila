@@ -101,8 +101,7 @@
                 ImageEntry::make('avatar')
                   ->circular()
                   ->defaultImageUrl(url('https://placehold.co/400')),
-                TextEntry::make('products', [
-                  'products' => fn(Builder $query) => $query->where('active', '!==', 1),
+                TextEntry::make('products.name', [
                 ])->label('Activos'),
               ]);
         }
