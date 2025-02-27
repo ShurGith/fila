@@ -7,7 +7,7 @@
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <button type="button"
                 class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          Update credit card
+          {{ __('Delete All') }}
         </button>
       </div>
     </div>
@@ -16,7 +16,7 @@
         <thead>
         <tr>
           <th scope="col"
-              class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">{{  __('Name') }}</th>
+              class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">{{  __('Image') }}</th>
           <th scope="col"
               class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">{{  __('Name') }}</th>
           <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
@@ -34,7 +34,7 @@
         @foreach($products as $product)
           @php
             if($product->imageproducts->count() === 0 )
-             $img =  Avatar::create($product->name)->toBase64();
+            $img =  Avatar::create($product->name)->toBase64();
               else
           $img = asset($product->getImgPal());
           @endphp
@@ -63,22 +63,13 @@
       @endif
     </td>
     <td class="flex items-center justify-center gap-2 py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-      <a href="{{ route('products.show', $product) }}">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-             stroke="currentColor"
-             class="size-6 text-blue-600">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-        </svg>
+      <a href="{{ route('products.show', $product) }}" alt="{{__('Remove this item from favorites')}}">
+        <x-heroicon-s-eye class="h-6 w-6 text-blue-500"></x-heroicon-s-eye>
       </a>
-      <button type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-             class="size-6 text-red-600">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-        </svg>
-      </button>
+      <a href="{{  route('favorites') }}" type="button" data-id="{{$product->id}}"
+         alt="{{'Remove this item from favorites'}}">
+        <x-heroicon-o-trash class="favorite-btn btn-delete text-red-500 h-6 w-6"></x-heroicon-o-trash>
+      </a>
     </td>
     </tr>
     @endforeach
@@ -86,4 +77,5 @@
     </table>
   </div>
   </div>
+  <script src="{{asset('js/favorites.js')}}"></script>
 </x-layouts.app>

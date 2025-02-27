@@ -11,30 +11,16 @@
             {{ $product->name }}
           </a>
         </h3>
-        <!-- Favoritos -->
+        <!-- Corazón Favoritos -->
         @php
-          $myc= request()->cookie('favorites');
-          if(strpos($myc, $product->id) !== false)
-              $favo=true;
-          else
-              $favo=false;
-          //echo $myc;
+          $enFavorites= strpos(request()->cookie('favorites'), $product->id);
         @endphp
         <button type="button" data-id="{{ $product->id }}"
-                class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-red-500">
-          <svg class="size-6 shrink-0 {{ $favo ? 'text-green-500':'' }} " fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-               stroke="currentColor"
-               aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
-          </svg>
+                class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-green-500">
+          <x-heroicon-m-heart class="h-6 w-6 {{ $enFavorites ? 'text-green-500':'' }}"></x-heroicon-m-heart>
           <span class="sr-only">Add to favorites</span>
         </button>
-        
-        <!-- Fin Favoritos -->
-        
-        
-        
+        <!-- Fin Corazón Favoritos -->
         @if(request()->routeIs('products.show'))
           <div>
             {!! tiptap_converter()->asHTML($product->description) !!}
@@ -55,39 +41,19 @@
         <div class="mt-3 flex flex-col items-center justify-center">
           <p class="sr-only">5 out of 5 stars</p>
           <div class="flex items-center">
-            <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                 data-slot="icon">
-              <path fill-rule="evenodd"
-                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                    clip-rule="evenodd"/>
-            </svg>
-            <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                 data-slot="icon">
-              <path fill-rule="evenodd"
-                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                    clip-rule="evenodd"/>
-            </svg>
-            <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                 data-slot="icon">
-              <path fill-rule="evenodd"
-                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                    clip-rule="evenodd"/>
-            </svg>
-            <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                 data-slot="icon">
-              <path fill-rule="evenodd"
-                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                    clip-rule="evenodd"/>
-            </svg>
-            <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                 data-slot="icon">
-              <path fill-rule="evenodd"
-                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                    clip-rule="evenodd"/>
-            </svg>
+            @php
+              $rand = rand(3,5);
+            @endphp
+            @for($i=0; $i<$rand; $i++)
+              <x-heroicon-m-star class="size-5 shrink-0 text-yellow-400"></x-heroicon-m-star>
+            @endfor
+            @for($i=0; $i<(5-$rand); $i++)
+              <x-heroicon-o-star class="size-5 shrink-0 text-gray-300"></x-heroicon-o-star>
+            @endfor
           </div>
           <p class="mt-1 text-sm text-gray-500">{{ rand(12, 45) }} reviews</p>
         </div>
+        <!-- ## FIN ESTRELLAS ## -->
         <div class="w-full mt-4">
           <!-- ### PRECIOS ### -->
           <div class="flex justify-center gap-8">
@@ -99,6 +65,7 @@
                 class="text-xs pl-1 align-super  ">{{ $product->precios(true,true) }}</span>
               €</h4>
           </div>
+          <!-- ### FIN PRECIOS ### -->
           <div class="flex flex-col items-center gap-2 justify-center mt-4">
             @if($product->units)
               <a href="{{ route('product.buyit', $product) }}">
@@ -170,5 +137,4 @@
 <div class="mt-2">
   {{ $products->links() }}
 </div>
-
-<script src="../../js/favorites.js"></script>
+<script src="{{asset('js/favorites.js')}}"></script>

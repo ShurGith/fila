@@ -1,3 +1,6 @@
+@props([
+'enFavorites' => strpos(request()->cookie('favorites'), $product->id),
+  ])
 <x-layouts.app :meta-title="$product->name" :header-text="$product->name">
   <link rel="stylesheet" href="../css/show.css">
   <section class="mx-auto max-w-2xl lg:max-w-none">
@@ -52,13 +55,11 @@
             @endif
           </div>
           <!-- Fin Precio -->
-          <!-- Reviews -->
+          <!-- Estrellas -->
           <div class="mt-3">
             <h3 class="sr-only">Reviews</h3>
             <div class="flex items-center">
               <div class="flex items-center">
-                <!-- Active: "text-indigo-500", Inactive: "text-gray-300" -->
-                
                 <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"
                      aria-hidden="true"
                      data-slot="icon">
@@ -81,6 +82,7 @@
                         clip-rule="evenodd"/>
                 </svg>
                 <svg class="size-5 shrink-0 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"
+                     aria-hidden="true"
                      aria-hidden="true" data-slot="icon">
                   <path fill-rule="evenodd"
                         d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
@@ -95,14 +97,13 @@
               </div>
             </div>
           </div>
-          <!--Fin Reviews-->
-          <!-- Description -->
+          <!--Fin Estrellas-->
+          <!-- Description y Descuento -->
           <div class="mt-6">
             <h3 class="sr-only">Description</h3>
             <div class="space-y-6 text-base text-gray-700">
               {!! tiptap_converter()->asHTML($product->description) !!}
             </div>
-            <!-- Fin Description -->
             @if($product->oferta)
               <h5
                 class="max-w-fit mt-3 inline-flex justify-center items-center gap-x-1.5 rounded-md px-2 py-1 text-xl font-medium text-white bg-green-600 ring-1 ring-inset ring-green-700">
@@ -113,74 +114,62 @@
               </h5>
             @endif
           </div>
-          
+          <!-- Fin Description  y descuento-->
           @if($product->units)
+            <!-- Colors -->
             <form class="mt-6">
-              <!-- Colors -->
-              <div>
-                <h3 class="text-sm text-gray-600">Color</h3>
-                <fieldset aria-label="Choose a color" class="mt-2">
-                  <div class="flex items-center gap-x-3">
-                    <!-- Active and Checked: "ring ring-offset-1" -->
-                    <label aria-label="Washed Black"
-                           class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-700 focus:outline-none">
-                      <input type="radio" name="color-choice" value="Washed Black" class="sr-only">
-                      <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-700"></span>
-                    </label>
-                    <!-- Active and Checked: "ring ring-offset-1" -->
-                    <label aria-label="White"
-                           class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-400 focus:outline-none">
-                      <input type="radio" name="color-choice" value="White" class="sr-only">
-                      <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-white"></span>
-                    </label>
-                    <!-- Active and Checked: "ring ring-offset-1" -->
-                    <label aria-label="Washed Gray"
-                           class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-500 focus:outline-none">
-                      <input type="radio" name="color-choice" value="Washed Gray" class="sr-only">
-                      <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-500"></span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-              <!-- Fin Colors -->
-              <!--Boton Add to Bag -->
-              <div class="mt-10 flex">
-                <a href="{{ route('product.buyit', $product) }}"
-                   class=" flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent
+              <h3 class="text-sm text-gray-600">Color</h3>
+              <fieldset aria-label="Choose a color" class="mt-2">
+                <div class="flex items-center gap-x-3">
+                  <!-- Active and Checked: "ring ring-offset-1" -->
+                  <label aria-label="Washed Black"
+                         class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-700 focus:outline-none">
+                    <input type="radio" name="color-choice" value="Washed Black" class="sr-only">
+                    <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-700"></span>
+                  </label>
+                  <!-- Active and Checked: "ring ring-offset-1" -->
+                  <label aria-label="White"
+                         class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-400 focus:outline-none">
+                    <input type="radio" name="color-choice" value="White" class="sr-only">
+                    <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-white"></span>
+                  </label>
+                  <!-- Active and Checked: "ring ring-offset-1" -->
+                  <label aria-label="Washed Gray"
+                         class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 ring-gray-500 focus:outline-none">
+                    <input type="radio" name="color-choice" value="Washed Gray" class="sr-only">
+                    <span aria-hidden="true" class="size-8 rounded-full border border-black/10 bg-gray-500"></span>
+                  </label>
+                </div>
+              </fieldset>
+            </form>
+            <!-- Fin Colors -->
+            <!-- Boton Add to Bag y Corazón Favoritos -->
+            <div class="mt-10 flex">
+              <!-- Boton Add to Bag -->
+              <a href="{{ route('product.buyit', $product) }}"
+                 class=" flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent
                      bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none
                      focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                  Add to bag
-                </a>
-                <!-- Corazón Favoritos -->
-                @php
-                  $myc= request()->cookie('favorites');
-                  if(strpos($myc, $product->id) !== false)
-                      $favo='✅ En Favoritos';
-                  else
-                      $favo="";
-                  //echo $myc;
-                @endphp
-                <button type="button" data-id="{{ $product->id }}"
-                        class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
-                  <svg class="size-6 shrink-0 {{ $favo ? 'hidden':'' }} " fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor"
-                       aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
-                  </svg>
-                  <span class="sr-only">Add to favorites</span>
-                  {{ $favo  }}
-                </button>
-                <!-- Fin Corazón Favoritos -->
-              </div>
+                Add to bag
+              </a>
               <!--Fin Boton Add to Bag -->
-            </form>
+              <!-- Corazón Favoritos -->
+              <button type="button" data-id="{{ $product->id }}"
+                      class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                <x-heroicon-m-heart class="h-6 w-6 {{ $enFavorites ? 'text-green-500':'' }}"></x-heroicon-m-heart>
+                <span class="sr-only">Add to favorites</span>
+              </button>
+              <!-- Fin Corazón Favoritos -->
+              <!-- Boton Add to Bag y Corazón Favoritos -->
+            </div>
           @else
+            <!-- Boton Out of Stock -->
             <a href="#"
                class="mt-10 pointer-events-none flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent
                      bg-red-600 px-8 py-3 text-base font-medium text-white sm:w-full">
               {{ __('Out of Stock') }}
             </a>
+            <!-- Fin Boton Out of Stock -->
           @endif
         </div>
       </div>
@@ -314,74 +303,5 @@
   </main>
 </x-layouts.app>
 <!-- JavaScript -->
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const botones = document.querySelectorAll('[aria-controls = disclosure-1]'),
-			divs = document.querySelectorAll('#disclosure'),
-			imagPal = document.querySelector('#img-ppal'),
-			imagenes = document.querySelectorAll('[img-role = img-slider]')
-		//console.dir(imagenes)
-		botones.forEach((boton, index) => {
-			boton.addEventListener('click', () => {
-				boton.classList.toggle('bg-indigo-50')
-				divs[index].classList.toggle('hidden')
-				let spans = boton.querySelectorAll('span')
-				let svgs = boton.querySelectorAll('svg')
-				spans.forEach(span => span.classList.toggle('text-indigo-600'))
-				svgs.forEach(svg => svg.classList.toggle('hidden'))
-			})
-		})
-		
-		function clickClassImg(img) {
-			imagenes.forEach((imag) => {
-				elem = imag.parentElement.previousElementSibling
-				if (elem)
-					elem.classList.add('ring-transparent')
-				img.parentElement.previousElementSibling.classList.remove('ring-transparent')
-				const srcTumb = img.src
-				const srcPal = imagPal.src
-				imagPal.src = srcTumb
-				img.src = srcPal
-			})
-		}
-		
-		imagenes.forEach(img => {
-			img.addEventListener('click', function () {
-				clickClassImg(this)
-			})
-		})
-		
-	/*	const btnFav = document.querySelector(".favorite-btn")
-		let productId = btnFav.getAttribute("data-id");
-  
-		const containsString = (obj, str) => {
-			return Object.values(obj).some(value =>
-				typeof value === 'string' && value.includes(str)
-			)
-		};
-		
-		btnFav.addEventListener("click", function () {
-			productId = this.getAttribute("data-id");
-			losFavorites = getCookie('favorites');
-			console.log(getCookie('favorites'))
-			
-			fetch(`/favorites/toggle/${productId}`, {
-				method: "POST",
-				headers: {
-					"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-					"Content-Type": "application/json"
-				}
-			})
-				.then(response => response.json())
-				.then(data => {
-					//	console.log(containsString(data.favorites, productId))
-					if (containsString(data.favorites, productId)) {
-						this.innerHTML = "✅ En Favoritos";
-					} else {
-						this.innerHTML = "❤️ Añadir a Favoritos";
-					}
-				});
-		});*/
-		
-	})
-</script>
+<script src="{{asset('js/favorites.js')}}"></script>
+<script src="{{asset('js/img-random.js')}}"></script>
