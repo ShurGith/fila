@@ -237,5 +237,7 @@
   "Your Saved Favorites": "Tus Favoritos Guardados",
   "Additional details": "Información Adicional",
   "Delete All": "Borrar Todos",
-  "Remove this item from favorites": "Quitar este item de favoritos"
+  "Remove this item from favorites": "Quitar este item de favoritos",
+  "All Favorities was deleted": "Se han eliminado todos los favoritos",
+  "Please check the form below for errors": "Se han encontrado errores"
 }

@@ -44,7 +44,7 @@
         
         public function eliminarCookieFav()
         {
-            $cookie = Cookie::forget($this->cookie_name());
-            return redirect()->route('favorites')->with('info', '!Todos los favoritos han sido eliminados!');
+            Cookie::queue(Cookie::forget($this->cookie_name()));
+            return redirect()->route('home')->with('success', 'All Favorities was deleted');
         }
     }
