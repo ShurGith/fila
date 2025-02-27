@@ -32,14 +32,13 @@
         public function getFavorites(Request $request)
         {
             $cookie_name = $this->cookie_name();
+            // $favorites = $request->cookie($this->cookie_name());
             $favorites = json_decode($request->cookie($this->cookie_name(), '[]'), true);
             $products = [];
             foreach ($favorites as $favorite) {
-                
-                if (isset($_COOKIE[$cookie_name]) && strpos($_COOKIE[$cookie_name], "null") !== false) {
-                    //return $favorite;
-                    $this->eliminarCookie();
-                    // return redirect()->route('favorites')->withCookie(Cookie::forget($this->cookie_name()));
+                if (in_array('null', $favorites)) {
+                    Cookie::queue(Cookie::forget($cookie_name));
+                    return redirect()->route('favorites')->with('Borrado');
                 }
                 
             }
@@ -54,6 +53,6 @@
         public function eliminarCookie()
         {
             $cookie = Cookie::forget($this->cookie_name());
-            return redirect()->route('favorites')->withCookie('Cookie Eliminada', $cookie);
+            return redirect()->route('favorites')->with('¡Eliminado!');
         }
     }

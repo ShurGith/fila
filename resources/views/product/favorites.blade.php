@@ -66,10 +66,13 @@
       <a href="{{ route('products.show', $product) }}" alt="{{__('Remove this item from favorites')}}">
         <x-heroicon-s-eye class="h-6 w-6 text-blue-500"></x-heroicon-s-eye>
       </a>
-      <a href="{{  route('favorites') }}" type="button" data-id="{{$product->id}}"
-         alt="{{'Remove this item from favorites'}}">
-        <x-heroicon-o-trash class="favorite-btn btn-delete text-red-500 h-6 w-6"></x-heroicon-o-trash>
-      </a>
+      <form method="post" action="{{ route('favorites.toggle', $product->id) }}">
+        @method('post')
+        <button type="button" data-id="{{$product->id}}"
+                alt="{{'Remove this item from favorites'}}">
+          <x-heroicon-o-trash class="favorite-btn btn-delete text-red-500 h-6 w-6"></x-heroicon-o-trash>
+        </button>
+      </form>
     </td>
     </tr>
     @endforeach

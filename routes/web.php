@@ -16,6 +16,6 @@
     
     Route::resource('products', ProductController::class);
     
-    Route::post('/favorites/toggle/{id}', [FavoriteController::class, 'toggle']);
+    Route::post('/favorites/toggle/{id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::get('/favorites', [FavoriteController::class, 'getFavorites'])->name('favorites');
 
