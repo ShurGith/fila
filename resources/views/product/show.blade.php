@@ -341,33 +341,61 @@
 				clickClassImg(this)
 			})
 		})
-		document.querySelectorAll(".favorite-btn").forEach(button => {
-			button.addEventListener("click", function () {
-				let productId = this.getAttribute("data-id");
-				
-				const containsString = (obj, str) => {
-					return Object.values(obj).some(value =>
-						typeof value === 'string' && value.includes(str)
-					);
-				};
-				
-				fetch(`/favorites/toggle/${productId}`, {
-					method: "POST",
-					headers: {
-						"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-						"Content-Type": "application/json"
+		
+		const btnFav = document.querySelector(".favorite-btn")
+		let productId = btnFav.getAttribute("data-id");
+		
+		function getCookie(name) {
+			let matches = document.cookie.match(new RegExp(
+				"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			));
+			return matches ? decodeURIComponent(matches[1]) : undefined;
+		}
+		
+		var cookieValor = document.cookie.replace(
+			/(?:(?:^|.*;\s*)laravel_session\s*\=\s*([^;]*).*$)|^.*$/,
+			"$1",
+		);
+		console.log(cookieValor)
+		let losFavorites = getCookie('laravel_session');
+		const favoritesData = losFavorites ? JSON.parse(losFavorites) : {};
+		//console.log(favoritesData)
+		//console.log(getCookie('laravel_session'));
+		const containsString = (obj, str) => {
+			return Object.values(obj).some(value =>
+				typeof value === 'string' && value.includes(str)
+			)
+		};
+		
+		/*
+		if (containsString(getCookie('favorites'), productId)) {
+			btnFav.innerHTML = "✅ En Favoritos";
+		} else {
+			btnFav.innerHTML = "❤️ Añadir a Favoritos";
+		}
+		*/
+		
+		btnFav.addEventListener("click", function () {
+			productId = this.getAttribute("data-id");
+			losFavorites = getCookie('favorites');
+			console.log(getCookie('favorites'))
+			
+			fetch(`/favorites/toggle/${productId}`, {
+				method: "POST",
+				headers: {
+					"X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+					"Content-Type": "application/json"
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					//	console.log(containsString(data.favorites, productId))
+					if (containsString(data.favorites, productId)) {
+						this.innerHTML = "✅ En Favoritos";
+					} else {
+						this.innerHTML = "❤️ Añadir a Favoritos";
 					}
-				})
-					.then(response => response.json())
-					.then(data => {
-						console.log(containsString(data.favorites, productId))
-						if (containsString(data.favorites, productId)) {
-							this.innerHTML = "✅ En Favoritos";
-						} else {
-							this.innerHTML = "❤️ Añadir a Favoritos";
-						}
-					});
-			});
+				});
 		});
 		
 	})
