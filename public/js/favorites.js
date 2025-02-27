@@ -1,11 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const btnsFav = document.querySelectorAll(".favorite-btn"),
-		containsString = (obj, str) => {
-			return Object.values(obj).some(value =>
-				typeof value === 'string' && value.includes(str)
-			);
-		};
-	console.log(containsString);
+	const btnsFav = document.querySelectorAll(".favorite-btn")
+	const flashMenssage = document.getElementById('flashMessage')
+	const btnFlash = flashMenssage.querySelector('button')
+	const containsString = (obj, str) => {
+		return Object.values(obj).some(value =>
+			typeof value === 'string' && value.includes(str)
+		);
+	};
+	if (btnFlash !== null) {
+		btnFlash.addEventListener('click', () => {
+			quitaFlash();
+		})
+	}
+	
+	removeFlash = () => {
+		flashMenssage.remove()
+	}
+	quitaFlash = () => {
+		flashMenssage.firstElementChild.classList.add('-translate-y-full')
+		setTimeout(removeFlash, 1000)
+	}
+	
+	setTimeout(() => {
+		flashMenssage.firstElementChild.classList.remove('-translate-y-full')
+	}, 1000)
+	
+	setTimeout(quitaFlash, 5000)
+	
 	btnsFav.forEach((btnFav) => {
 		btnFav.addEventListener("click", function () {
 			const productId = this.getAttribute("data-id"),

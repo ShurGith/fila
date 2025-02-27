@@ -13,7 +13,7 @@
         </h3>
         <!-- Corazón Favoritos -->
         @php
-          $enFavorites= strpos(request()->cookie('favorites'), $product->id);
+          $enFavorites= strpos(request()->cookie('cookie_favorites'), $product->id);
         @endphp
         <button type="button" data-id="{{ $product->id }}"
                 class="favorite-btn ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-green-500">

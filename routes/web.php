@@ -18,4 +18,5 @@
     
     Route::post('/favorites/toggle/{id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::get('/favorites', [FavoriteController::class, 'getFavorites'])->name('favorites');
+    Route::post('/favorites', [FavoriteController::class, 'eliminarCookieFav'])->name('favorites.eliminar');
 
