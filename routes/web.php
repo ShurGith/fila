@@ -18,3 +18,4 @@
     
     Route::post('/favorites/toggle/{id}', [FavoriteController::class, 'toggle']);
     Route::get('/favorites', [FavoriteController::class, 'getFavorites']);
+

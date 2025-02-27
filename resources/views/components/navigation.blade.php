@@ -41,13 +41,18 @@
                $favos=false;
             @endphp
             @if($favos)
-            <div><p class="text-gray-300 text-sm">({{$favos}})</p>
+            <div class="relative">
+              <a href="url('product/favorites')">
+              <div class="absolute -left-2 -top-2 bg-white rounded-full w-4 h-4 flex  justify-center items-center">
+              <p class="text-black text-xs contador">{{$favos}}</p>
+              </div>
             <svg class="size-6 shrink-0 text-gray-300 {{ $favos ?? 'hidden'}} " fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor"
                  aria-hidden="true" data-slot="icon">
               <path stroke-linecap="round" stroke-linejoin="round"
                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
             </svg>
+              </a>
             </div>
             <button type="button"
                     class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

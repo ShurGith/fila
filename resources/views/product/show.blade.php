@@ -351,38 +351,14 @@
 			})
 		})
 		
-		const btnFav = document.querySelector(".favorite-btn")
+	/*	const btnFav = document.querySelector(".favorite-btn")
 		let productId = btnFav.getAttribute("data-id");
-		
-		function getCookie(name) {
-			let matches = document.cookie.match(new RegExp(
-				"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-			));
-			return matches ? decodeURIComponent(matches[1]) : undefined;
-		}
-		
-		var cookieValor = document.cookie.replace(
-			/(?:(?:^|.*;\s*)laravel_session\s*\=\s*([^;]*).*$)|^.*$/,
-			"$1",
-		);
-		console.log(cookieValor)
-		let losFavorites = getCookie('laravel_session');
-		const favoritesData = losFavorites ? JSON.parse(losFavorites) : {};
-		//console.log(favoritesData)
-		//console.log(getCookie('laravel_session'));
+  
 		const containsString = (obj, str) => {
 			return Object.values(obj).some(value =>
 				typeof value === 'string' && value.includes(str)
 			)
 		};
-		
-		/*
-		if (containsString(getCookie('favorites'), productId)) {
-			btnFav.innerHTML = "✅ En Favoritos";
-		} else {
-			btnFav.innerHTML = "❤️ Añadir a Favoritos";
-		}
-		*/
 		
 		btnFav.addEventListener("click", function () {
 			productId = this.getAttribute("data-id");
@@ -405,7 +381,7 @@
 						this.innerHTML = "❤️ Añadir a Favoritos";
 					}
 				});
-		});
+		});*/
 		
 	})
 </script>
