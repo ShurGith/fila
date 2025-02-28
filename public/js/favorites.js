@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /*	removeFlash = () => {
                     flashMenssage.remove()
             }*/
+
     quitaFlash = () => {
         flashMenssage.firstElementChild.classList.add('-translate-y-full');
         //	setTimeout(removeFlash, 1000)
