@@ -50,6 +50,7 @@
               'product' => $product,
               'randoms' => $randoms,
               'impath' => $impath,
+              'esSingleProduct' => true,
             ]);
         }
         

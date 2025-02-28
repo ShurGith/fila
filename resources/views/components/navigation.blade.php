@@ -34,7 +34,6 @@
             @php
               $myc = json_decode(request()->cookie('cookie_favorites', '[]'), true);
               if($myc){
-                //json_decode($request->cookie($this->cookie_name(), '[]'), true);
                  $favos = count($myc);
                  }
               else
@@ -219,8 +218,8 @@
       </div>
 </nav>
 
-<div id="flashMessage" class="relative">
-  <div class="absolute duration-1000 translate-x-full -translate-y-full">
+<div id="flashMessage" class="relative w-full flex justify-center">
+  <div class="absolute w-full max-w-1/3 flex justify-center px-12 -translate-y-full duration-1000">
     @include('components.layouts.flash-messages')
   </div>
 </div>

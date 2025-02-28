@@ -4,15 +4,14 @@
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold text-gray-900">{{__("Your Saved Favorites")}}</h1>
       </div>
-      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none {{ count($products)===1 ? 'hidden' :''}}">
         <form method="post" action="{{route('favorites.eliminar')}}">
-          <input type="hidden" name="">
           @csrf
           <button type="submit"
                   class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             {{ __('Delete All') }}
           </button>
+        </form>
       </div>
     </div>
     <div class="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
@@ -68,12 +67,12 @@
               @endif
             </td>
             <td class="flex items-center justify-center gap-2 py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-              <a href="{{ route('products.show', $product) }}" alt="{{__('Remove this item from favorites')}}">
+              <a href="{{ route('products.show', $product) }}">
                 <x-heroicon-s-eye class="h-6 w-6 text-blue-500"></x-heroicon-s-eye>
               </a>
               <form method="post" action="{{route('favorites.toggle',$product->id)}}">
                 @csrf
-                <input type="hidden" name="borrar" value="true">
+                <input type="hidden" name="unico" value="1">
                 <button type="submit">
                   <x-heroicon-o-trash class="btn btn-delete text-red-500 h-6 w-6"></x-heroicon-o-trash>
                 </button>
