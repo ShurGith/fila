@@ -22,7 +22,7 @@
 </head>
 <body class="antialiased grid min-h-dvh grid-rows[auto 1fr auto]">
 <div class="bg-gray-800 pb-32">
-  <x-navigation/>
+  <x-navigation :message="$metaTitle"/>
   <header class="py-10">
     <div class="flex flex-col mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <h1 class="text-2xl font-bold tracking-tight text-white">{{ $headerText ??''}}</h1>

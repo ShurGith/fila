@@ -4,32 +4,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFlash = flashMenssage.querySelector('button');
     const flashUnic = document.getElementById('favorite-unic');
     const btnFav = document.getElementById('btnFav');
-
+    const url= window.location.href.includes('/products/')
+console.log(url)
     const containsString = (obj, str) => {
         return Object.values(obj).some(value => typeof value === 'string' && value.includes(str));
     };
 
-    // console.log(flashMenssage);
     if (btnFlash !== null) {
         btnFlash.addEventListener('click', () => {
             quitaFlash();
         });
     }
 
-    /*	removeFlash = () => {
-                    flashMenssage.remove()
-            }*/
-
     quitaFlash = () => {
         flashMenssage.firstElementChild.classList.add('-translate-y-full');
-        //	setTimeout(removeFlash, 1000)
     };
 
-    setTimeout(() => {
-        flashMenssage.firstElementChild.classList.remove('-translate-y-full')
-    }, 300);
+    muestraFlash = ()=>{
+           flashMenssage.firstElementChild.classList.remove('-translate-y-full')
+           setTimeout(quitaFlash, 3000)
+   }
 
-    setTimeout(quitaFlash, 5000);
+if(!url)
+    setTimeout(muestraFlash, 300);
+
 
     btnsFav.forEach((btnFav) => {
         btnFav.addEventListener("click", function () {
@@ -47,9 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (containsString(data.favorites, productId)) {
                         this.querySelector('svg').classList.add('text-green-500');
                         contador.innerText = (+contador.innerText) + 1
+                        if(url){
+                          document.querySelector('.fav-show-add').classList.remove('hidden')
+                          document.querySelector('.fav-show-remove').classList.add('hidden')
+                          muestraFlash()
+                        }
+
                     } else {
                         this.querySelector('svg').classList.remove('text-green-500');
                         contador.innerText = (+contador.innerText) - 1
+                        if(url){
+                          document.querySelector('.fav-show-remove').classList.remove('hidden')
+                          document.querySelector('.fav-show-add').classList.add('hidden')
+                          muestraFlash()
+                        }
                     }
                     if (contador.innerText === "0") {
                         divFavorites.classList.add('hidden');
