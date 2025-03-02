@@ -20,3 +20,13 @@ img {
     items: center;
     justify-content: center;
 }
+
+.especificaciones {
+    display: grid;
+    grid-template-rows: min-content 0fr;
+    transition: grid-template-rows 500ms;
+}
+
+.especificaciones.mostrado {
+    grid-template-rows: min-content 1fr;
+}

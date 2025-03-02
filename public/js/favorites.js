@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const flashUnic = document.getElementById('favorite-unic');
     const btnFav = document.getElementById('btnFav');
     const url= window.location.href.includes('/products/')
-console.log(url)
+
     const containsString = (obj, str) => {
         return Object.values(obj).some(value => typeof value === 'string' && value.includes(str));
     };
@@ -27,7 +27,6 @@ console.log(url)
 
 if(!url)
     setTimeout(muestraFlash, 300);
-
 
     btnsFav.forEach((btnFav) => {
         btnFav.addEventListener("click", function () {

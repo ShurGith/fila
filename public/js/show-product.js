@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const botones = document.querySelectorAll('[aria-controls = disclosure-1]'),
-        divs = document.querySelectorAll('#disclosure'),
+        divs = document.querySelectorAll('.especificaciones'),
         imagPal = document.querySelector('#img-ppal'),
         imagenes = document.querySelectorAll('[img-role = img-slider]')
     botones.forEach((boton, index) => {
         boton.addEventListener('click', () => {
             boton.classList.toggle('bg-indigo-50')
-            divs[index].classList.toggle('h-0')
+            divs[index].classList.toggle('mostrado')
             let spans = boton.querySelectorAll('span')
             let svgs = boton.querySelectorAll('svg')
             spans.forEach(span => span.classList.toggle('text-indigo-600'))
