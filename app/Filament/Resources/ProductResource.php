@@ -123,10 +123,10 @@
                 Tables\Columns\ToggleColumn::make('active')
                   ->label('En Venta'),
                 Tables\Columns\ToggleColumn::make('oferta'),
-                Tables\Columns\TextColumn::make('descuento')
-                  ->label('Descuento')
-                  ->numeric()
-                  ->sortable(),
+                Tables\Columns\TextInputColumn::make('descuento')
+                  ->label('Descuento'),
+                Tables\Columns\TextInputColumn::make('units')
+                  ->label('Unidades'),
                 Tables\Columns\TextColumn::make('user.name')
                   ->numeric()
                   ->sortable(),

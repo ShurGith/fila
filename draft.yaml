@@ -30,7 +30,7 @@ models:
 
   Generaloptions:
     name: string
-    active: boolean default 0
+    active: string
     timestamps: false
 
   #  Featureproduct:

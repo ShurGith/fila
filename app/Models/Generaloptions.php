@@ -10,21 +10,20 @@
         
         protected $fillable = [
           'name',
-          'active'
+          'value'
         ];
         
         protected $casts = [
           'name' => 'string',
-          'active' => 'boolean',
         ];
         
         public static function get($key, $default = null)
         {
-            return self::where('name', $key)->value('active') ?? $default;
+            return self::where('name', $key)->value('value') ?? $default;
         }
         
         public static function set($key, $value)
         {
-            return self::updateOrCreate(['name' => $key], ['active' => $value]);
+            return self::updateOrCreate(['name' => $key], ['value' => $value]);
         }
     }

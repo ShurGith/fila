@@ -9,8 +9,9 @@
         public function up(): void
         {
             Schema::create('generaloptions', function (Blueprint $table) {
+                $table->bigInteger();
                 $table->string('name');
-                $table->boolean('active');
+                $table->string('value');
             });
             
         }
