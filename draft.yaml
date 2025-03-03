@@ -28,6 +28,11 @@ models:
       belongsTo: Product
       #hasMany: Featureproduct
 
+  Generaloptions:
+    name: string
+    active: boolean default 0
+    timestamps: false
+
   #  Featureproduct:
   #    feature: longtext
   #    timestamps: false

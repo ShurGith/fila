@@ -88,5 +88,4 @@
             return number_format($valor / 100, 2, "'", ".");
         }
         
-        
     }

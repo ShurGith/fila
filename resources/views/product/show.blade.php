@@ -162,13 +162,13 @@
       @foreach($product->featuretitles as $feature)
         <div
           class="border-t-gray-200 border-t pb-4 overflow-hidden especificaciones transition ease-linear duration-1500 ">
-          <h3>
-            <!-- Expand/collapse question button -->
-            <button type="button"
-                    class="cursor-pointer group relative flex w-full items-center justify-between py-2 my-4 text-left"
-                    aria-controls="disclosure-1" aria-expanded="false">
-              <span class="text-sm font-medium pl-4 text-gray-900"> {{ $feature->title }}</span>
-              <span class="ml-6 flex items-center mr-4">
+          
+          <!-- Expand/collapse question button -->
+          <button type="button"
+                  class="cursor-pointer group relative flex w-full items-center justify-between py-2 my-4 "
+                  aria-controls="disclosure-1" aria-expanded="false">
+            <h3 class="text-sm font-medium pl-4 text-gray-900"> {{ $feature->title }}</h3>
+            <span class="ml-6 flex items-center mr-4">
                       <svg class="block size-6 text-gray-400 group-hover:text-gray-500" fill="none"
                            viewBox="0 0 24 24"
                            stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -180,8 +180,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
                       </svg>
                     </span>
-            </button>
-          </h3>
+          </button>
           <div class="overflow-hidden" id="disclosure">
             {!! $feature->text !!}
           </div>

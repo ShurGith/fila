@@ -3,6 +3,7 @@
     namespace Database\Seeders;
     
     use App\Models\Category;
+    use App\Models\Generaloptions;
     use App\Models\Product;
     use App\Models\Tag;
     use App\Models\User;
@@ -28,6 +29,12 @@
             
             User::factory(9)->create();
             
+            Generaloptions::factory()->create([
+              'name' => 'hide_no_actives',
+            ]);
+            Generaloptions::factory()->create([
+              'name' => 'hide_no_existences',
+            ]);
             
             for ($i = 0; $i < 5; $i++) {
                 Category::factory()->create([

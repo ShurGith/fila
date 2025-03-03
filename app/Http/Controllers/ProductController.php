@@ -4,6 +4,7 @@
     
     use App\Http\Requests\ProductStoreRequest;
     use App\Http\Requests\ProductUpdateRequest;
+    use App\Models\Generaloptions;
     use App\Models\Product;
     use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
@@ -13,10 +14,15 @@
     {
         public function index(Request $request): View
         {
-            $products = Product::paginate(12);
+            $hideNoActives = Generaloptions::get('hide_no_actives', '0');
+            $hideNoStock = Generaloptions::get('hide_no_existences', '0');
+            
+            $products = Product::when($hideNoActives == 1, fn($query) => $query->where('active', true))
+              ->when($hideNoStock == 1, fn($query) => $query->where('units', '>', 0))
+              ->paginate(12);
             
             return view('product.index', [
-              'products' => $products
+              'products' => $products,
             ]);
         }
         

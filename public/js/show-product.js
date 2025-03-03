@@ -3,14 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
         divs = document.querySelectorAll('.especificaciones'),
         imagPal = document.querySelector('#img-ppal'),
         imagenes = document.querySelectorAll('[img-role = img-slider]')
-    botones.forEach((boton, index) => {
-        boton.addEventListener('click', () => {
-            boton.classList.toggle('bg-indigo-50')
-            divs[index].classList.toggle('mostrado')
-            let spans = boton.querySelectorAll('span')
-            let svgs = boton.querySelectorAll('svg')
+
+ actionText = ()=>{
+      for(div of divs)
+        div.classList.remove('mostrado')
+}
+    botones.forEach(  function(boton) {
+            boton.addEventListener('click', function (boton, index)  {
+            if(!this.parentElement.classList.contains('mostrado'))
+                actionText()
+            let spans = this.querySelectorAll('h3')
+            let svgs = this.querySelectorAll('svg')
             spans.forEach(span => span.classList.toggle('text-indigo-600'))
             svgs.forEach(svg => svg.classList.toggle('hidden'))
+            this.parentElement.classList.toggle('mostrado')
         })
     })
 

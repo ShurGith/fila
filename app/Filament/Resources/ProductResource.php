@@ -4,6 +4,7 @@
     
     use App\Filament\Resources\ProductResource\Pages;
     use App\Models\Product;
+    use App\Models\Tag;
     use Filament\Forms;
     use Filament\Forms\Components\Repeater;
     use Filament\Forms\Components\Split;
@@ -15,7 +16,6 @@
     use Filament\Tables\Table;
     use FilamentTiptapEditor\Enums\TiptapOutput;
     use FilamentTiptapEditor\TiptapEditor;
-    use Illuminate\Database\Eloquent\Model;
     
     class ProductResource extends Resource
     {
@@ -64,9 +64,8 @@
                   ->profile('default')
                   ->output(TiptapOutput::Html)
                   ->columnSpanFull(),
-                
                 Repeater::make('images')
-                  ->label('Imágenes')
+                  ->translateLabel()
                   ->relationship('imageproducts')
                   ->schema([
                     Forms\Components\FileUpload::make('img_path')
@@ -78,9 +77,8 @@
                   ])
                   ->grid(2)
                   ->columnSpanFull(),
-                
                 Repeater::make('features')
-                  ->label('Titulo')
+                  ->translateLabel()
                   ->relationship('featuretitles')
                   ->schema([
                     TextInput::make('title')->required()->label('nombre'),
@@ -89,19 +87,23 @@
                   ->label('Detalles')
                   ->grid(2)
                   ->columnSpanFull(),
-                
-                Forms\Components\CheckboxList::make('Categorias')
+                Forms\Components\Select::make('category_id')
+                  ->translateLabel()
                   ->relationship('categories', 'name')
-                  ->getOptionLabelFromRecordUsing(fn(Model $record
-                  ) => "{$record->id} {$record->name} "),
-                
-                Forms\Components\CheckboxList::make('Etiquetas')
-                  ->label('Etiquetas')
+                  //   ->getOptionLabelFromRecordUsing(fn(Model $record
+                  //  ) => "{$record->id} {$record->name} ")
+                  ->reactive(), // Esto hace que al cambiar la categoría, se actualicen otros campos dinámicamente
+                  //   ->afterStateUpdated(fn(callable $set) => $set('tag_id', null)),
+                Forms\Components\CheckboxList::make('tag_id')
+                  ->translateLabel()
                   ->relationship('tags')
-                  ->visible(fn(Get $get) => empty($get('categories')))
-                  ->getOptionLabelFromRecordUsing(fn(Model $record
-                  ) => "{$record->category_id} {$record->name}")
-                  ->columns(4)
+                  ->options(fn(callable $get) => Tag::where('category_id', $get('category_id'))
+                    ->pluck('name', 'id')
+                  )
+                  /* ->visible(fn(Get $get) => empty($get('categories')))
+                   ->getOptionLabelFromRecordUsing(fn(Model $record
+                   ) => "{$record->category_id} {$record->name}")*/
+                  ->columns(3)
               ]);
         }
         
