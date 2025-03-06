@@ -25,7 +25,6 @@
         protected static ?string $navigationGroup = 'Productos';
         protected static ?string $modelLabel = 'producto';
         protected static ?string $navigationLabel = 'Productos en venta';
-        public Catprod $category;
         
         public static function form(Form $form): Form
         {

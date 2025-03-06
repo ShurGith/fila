@@ -2,6 +2,7 @@
     
     namespace App\Providers\Filament;
     
+    use App\Filament\User\Resources\UserResource\Pages\Auth\Register;
     use Filament\Http\Middleware\Authenticate;
     use Filament\Http\Middleware\AuthenticateSession;
     use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -26,6 +27,12 @@
               ->id('user')
               ->path('user')
               ->login()
+              ->registration(Register::class)
+              ->registration()
+              ->passwordReset()
+              ->emailVerification()
+              ->authGuard('web') // Especificamos el guard de autenticación
+              
               ->profile()
               ->colors([
                 'primary' => Color::Blue,
@@ -54,6 +61,8 @@
               ])
               ->authMiddleware([
                 Authenticate::class,
+              ])
+              ->plugins([
               ]);
         }
     }

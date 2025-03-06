@@ -2,13 +2,8 @@
     
     namespace Database\Seeders;
     
-    use App\Models\Category;
-    use App\Models\Generaloptions;
     use App\Models\Product;
-    use App\Models\Tag;
-    use App\Models\User;
     use Illuminate\Database\Seeder;
-    use Illuminate\Support\Facades\Hash;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
     
@@ -21,38 +16,38 @@
         {
             // User::factory(10)->create();
             
-            User::factory()->create([
-              'name' => 'Juan Jota',
-              'email' => 'esnola@gmail.com',
-              'password' => Hash::make('123456')
-            ]);
-            
-            User::factory(9)->create();
-            
-            Generaloptions::factory()->create([
-              'name' => 'hide_no_actives',
-            ]);
-            Generaloptions::factory()->create([
-              'name' => 'hide_no_existences',
-            ]);
-            
-            for ($i = 0; $i < 5; $i++) {
-                Category::factory()->create([
-                  'name' => fake()->firstName(),
-                  'color' => fake()->colorName(),
-                  'bgcolor' => fake()->colorName(),
-                ]);
-            }
-            for ($i = 0; $i < 15; $i++) {
-                Tag::factory()->create([
-                  'name' => fake()->firstName(),
-                  'color' => fake()->colorName(),
-                  'bgcolor' => fake()->colorName(),
-                  'category_id' => rand(1, 5),
-                  'icon_active' => fake()->boolean(),
-                ]);
-            }
-            for ($i = 0; $i < 40; $i++) {
+            /* User::factory()->create([
+               'name' => 'Juan Jota',
+               'email' => 'esnola@gmail.com',
+               'password' => Hash::make('123456')
+             ]);
+             
+             User::factory(9)->create();
+             
+             Generaloptions::factory()->create([
+               'name' => 'hide_no_actives',
+             ]);
+             Generaloptions::factory()->create([
+               'name' => 'hide_no_existences',
+             ]);
+             
+             for ($i = 0; $i < 5; $i++) {
+                 Category::factory()->create([
+                   'name' => fake()->firstName(),
+                   'color' => fake()->colorName(),
+                   'bgcolor' => fake()->colorName(),
+                 ]);
+             }
+             for ($i = 0; $i < 15; $i++) {
+                 Tag::factory()->create([
+                   'name' => fake()->firstName(),
+                   'color' => fake()->colorName(),
+                   'bgcolor' => fake()->colorName(),
+                   'category_id' => rand(1, 5),
+                   'icon_active' => fake()->boolean(),
+                 ]);
+             }*/
+            for ($i = 0; $i < 250; $i++) {
                 Product::factory()->create([
                   'name' => fake()->firstName(),
                   'description' => fake()->paragraph(5),

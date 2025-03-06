@@ -3,9 +3,9 @@
     namespace App\Filament\User\Resources;
     
     use App\Filament\User\Resources\UserResource\Pages;
+    use App\Filament\User\Resources\UserResource\Pages\CreateUser;
     use App\Filament\User\Resources\UserResource\RelationManagers;
     use App\Models\User;
-    use Auth;
     use Filament\Forms\Form;
     use Filament\Infolists\Components\ImageEntry;
     use Filament\Infolists\Components\TextEntry;
@@ -14,6 +14,8 @@
     use Filament\Tables;
     use Filament\Tables\Table;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Log;
     
     
     class UserResource extends Resource
@@ -49,11 +51,6 @@
                 ])->label('Activos'),
                 Tables\Columns\TextColumn::make('email'),
                   //Tables\Columns\TextColumn::make('products_count')->counts('products')
-              
-              
-              ])
-              ->filters([
-                  //
               ])
               ->actions([
                 Tables\Actions\EditAction::make()
@@ -79,7 +76,7 @@
         {
             return [
               'index' => Pages\ListUsers::route('/'),
-                // 'create' => Pages\CreateUser::route('/create'),
+                //'create' => CreateUser::route('/create'),
                 //'edit' => Pages\EditUser::route('/{record}/edit'),
             ];
         }
@@ -109,5 +106,17 @@
         public static function canCreate(): bool
         {
             return false; // Desactiva el botón "New User"
+        }
+        
+        public static function afterCreate($record): void
+        {
+            // Registrar en logs
+            Log::info("✳️✳️✳️ Desde User/UserResource Enviando correo a usuario: ".$record->email);
+            
+            /*   // Enviar correo al usuario registrado
+               Mail::to($record->email)->send(new UserRegistered($record));
+               
+               // Enviar correo al administrador
+               Mail::to('esnola@gmail.com')->send(new UserRegistered($record));*/
         }
     }

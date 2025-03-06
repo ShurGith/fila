@@ -21,6 +21,8 @@
     use Illuminate\Session\Middleware\StartSession;
     use Illuminate\Support\Facades\Blade;
     use Illuminate\View\Middleware\ShareErrorsFromSession;
+    use Monzer\FilamentEmailVerificationAlert\EmailVerificationAlertPlugin;
+    use RickDBCN\FilamentEmail\FilamentEmail;
     
     class AdminPanelProvider extends PanelProvider
     {
@@ -65,9 +67,7 @@
                 fn(): string => Blade::render("@vite('resources/js/app.js')"),
               )
               ->plugins([
-                  //    GlobalSearchModalPlugin::make(),
-                  /*   ->closeByEscaping(enabled: false)
-                     ->closeByClickingAway(enabled: false)*/
+                FilamentEmail::make(),
               ])
               ->authMiddleware([
                 Authenticate::class,

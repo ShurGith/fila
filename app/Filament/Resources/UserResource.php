@@ -7,15 +7,23 @@
     use App\Models\User;
     use Filament\Forms;
     use Filament\Forms\Form;
+    use Filament\Resources\Pages\CreateRecord;
+    use Filament\Resources\Pages\Page;
     use Filament\Resources\Resource;
     use Filament\Tables;
+    use Filament\Tables\Filters\Filter;
     use Filament\Tables\Table;
+    use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Support\Facades\Hash;
+    use Log;
     
     class UserResource extends Resource
     {
         protected static ?string $model = User::class;
         
+        protected static ?string $navigationGroup = 'Admin';
         protected static ?string $navigationIcon = 'heroicon-o-user-group';
+        protected static ?int $navigationSort = 1;
         
         public static function form(Form $form): Form
         {
@@ -35,10 +43,14 @@
                   ->imageEditor()
                   ->circleCropper(),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
-                  /*    Forms\Components\TextInput::make('password')
-                        ->password()
-                        ->required()
-                        ->maxLength(255),*/
+                Forms\Components\TextInput::make('password')
+                  ->password()
+                  ->revealable()
+                  ->required()
+                  ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                  ->dehydrated(fn(?string $state): bool => filled($state))
+                  ->autocomplete('false')
+                  ->required(fn(Page $livewire) => ($livewire instanceof CreateRecord)),
               ]);
         }
         
@@ -48,14 +60,15 @@
               ->columns([
                 Tables\Columns\TextColumn::make('name')
                   ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                  ->label('Sin verificar email')
+                  ->badge('success')
+                  ->icon('heroicon-o-exclamation-triangle')
+                  ->formatStateUsing(fn($state) => filled($state) ? 'Verificado' : 'Pendiente'),
                 Tables\Columns\TextColumn::make('email')
                   ->searchable(),
                 Tables\Columns\ImageColumn::make('avatar')
                   ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                  ->dateTime()
-                  ->sortable()
-                  ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                   ->dateTime()
                   ->sortable()
@@ -66,12 +79,17 @@
                   ->toggleable(isToggledHiddenByDefault: true),
               ])
               ->filters([
-                  //
+                Filter::make('verified')
+                  ->label('Email Verified')
+                  ->query(fn(Builder $query) => $query->whereNotNull('email_verified_at')),
+                Filter::make('unverified')
+                  ->label('Email Not Verified')
+                  ->query(fn(Builder $query) => $query->whereNull('email_verified_at')),
               ])
               ->actions([
                 Tables\Actions\EditAction::make()
                   ->slideOver(),
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make(),
               ])
               ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -95,4 +113,6 @@
                 //'edit' => Pages\EditUser::route('/{record}/edit'),
             ];
         }
+        
+        
     }
